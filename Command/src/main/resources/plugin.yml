@@ -1,0 +1,13 @@
+name: Command
+version: '${project.version}'
+main: com.senko.command.Command
+api-version: 1.18
+authors: [ senko ]
+description: 玩家指令发送
+commands:
+  suicide:
+    usage: "/<command>"
+    aliases:
+      - s
+      - s1
+    description: 自杀
