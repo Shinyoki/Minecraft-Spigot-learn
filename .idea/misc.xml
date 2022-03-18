@@ -9,6 +9,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/EventListener/pom.xml" />
+        <option value="$PROJECT_DIR$/Command/pom.xml" />
       </list>
     </option>
   </component>

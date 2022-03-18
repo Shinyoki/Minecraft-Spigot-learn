@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Command" />
         <module name="EventListener" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Command" target="1.8" />
       <module name="EventListener" target="1.8" />
     </bytecodeTargetLevel>
   </component>
