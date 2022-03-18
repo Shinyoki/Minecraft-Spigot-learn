@@ -1,0 +1,6 @@
+name: EventListener
+version: '${project.version}'
+main: com.senko.eventlistener.EventListener
+api-version: 1.18
+authors: [ senko ]
+description: 事件监听器
