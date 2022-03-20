@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Command/Command.iml" filepath="$PROJECT_DIR$/Command/Command.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ConfigurationLear/ConfigurationLear.iml" filepath="$PROJECT_DIR$/ConfigurationLear/ConfigurationLear.iml" />
       <module fileurl="file://$PROJECT_DIR$/EventListener/EventListener.iml" filepath="$PROJECT_DIR$/EventListener/EventListener.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/HelloWorld/HelloWorld.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/code-learning.iml" filepath="$PROJECT_DIR$/.idea/code-learning.iml" />
     </modules>
   </component>

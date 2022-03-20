@@ -10,12 +10,10 @@
       <list>
         <option value="$PROJECT_DIR$/EventListener/pom.xml" />
         <option value="$PROJECT_DIR$/Command/pom.xml" />
-        <option value="$PROJECT_DIR$/ConfigurationLear/pom.xml" />
-        <option value="$PROJECT_DIR$/HelloWorld/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectType">
