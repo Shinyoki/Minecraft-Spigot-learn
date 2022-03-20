@@ -1,0 +1,6 @@
+name: HelloWorld
+version: '${project.version}'
+main: com.senko.helloworld.HelloWorld
+api-version: 1.18
+authors: [ senko ]
+description: 这是我的第一个Minecraft Spigot Plugin

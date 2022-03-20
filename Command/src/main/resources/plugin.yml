@@ -1,6 +1,6 @@
 name: Command
 version: '${project.version}'
-main: com.senko.command.Command
+main: com.senko.command.CommandLear
 api-version: 1.18
 authors: [ senko ]
 description: 玩家指令发送
@@ -11,3 +11,12 @@ commands:
       - s
       - s1
     description: 自杀
+  tc:
+    usage: "/<command>"
+    description: 测试Handler注册指令
+permissions:
+  tc.help:
+    # default: true意味着所有玩家都有权限
+    default: true
+  tc.godMode:
+    default: true
