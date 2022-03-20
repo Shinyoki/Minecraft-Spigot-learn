@@ -1,4 +1,4 @@
-package com.senko.command.commands;
+package com.senko.command.commands.executors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

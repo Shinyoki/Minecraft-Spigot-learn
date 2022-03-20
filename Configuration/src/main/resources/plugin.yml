@@ -1,0 +1,6 @@
+name: Configuration
+version: '${project.version}'
+main: com.senko.configuration.Configuration
+api-version: 1.18
+authors: [ senko ]
+description: 配置读取、设置
