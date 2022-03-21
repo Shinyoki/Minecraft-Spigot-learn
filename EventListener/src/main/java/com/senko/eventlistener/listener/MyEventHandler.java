@@ -9,6 +9,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ExpBottleEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
@@ -45,7 +46,7 @@ public class MyEventHandler implements Listener {
 
     /**
      * 事件取消
-     */
+     *
     @EventHandler
     public void onShearSheep(PlayerShearEntityEvent event) {
         Entity entity = event.getEntity();
@@ -67,21 +68,32 @@ public class MyEventHandler implements Listener {
             player.chat("我没事剪"+entity.getName()+"干啥啊");
         }
     }
-//    @EventHandler
-//    public void expBottleBreaker(ExpBottleEvent event) {
-//        Block hitBlock = event.getHitBlock();
-//        event.setShowEffect(false);
-//        event.setExperience(0);
-//        if (hitBlock != null) {
-//            for (RegisteredListener registeredListener : event.getHandlers().getRegisteredListeners()) {
-//                System.out.println(registeredListener.getListener());
-//            }
-//            if (hitBlock.getType().equals(Material.STONE) || hitBlock.getType().equals(Material.DIRT) || hitBlock.getType().equals(Material.GRASS_BLOCK)) {
-//                hitBlock.breakNaturally();
-//            }
-//            System.out.println(hitBlock.getType().name());
-//        }else {
-//            System.out.println("HITBOX IS NULL");
-//        }
-//    }
+    */
+
+    /**
+     * 羊毛色彩变化 事件处理
+     * 当玩家想要伤害羊羊君的时候羊毛色彩就会发生变化
+     */
+    @EventHandler
+    public void onPlayerHitSheep(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+        if (damager != null && damager instanceof Player) {
+            //施害者是玩家类型
+            if (event.getEntity() != null && event.getEntity() instanceof Sheep) {
+                //被害者是羊羊君
+                Entity entity = event.getEntity();
+                Sheep sheep = (Sheep) entity;
+
+                DyeColor[] colors = DyeColor.values();
+                //防止发生数组越界，所以 length - 1
+                int randomIndex = new Random().nextInt(colors.length - 1);
+
+                //修改羊毛颜色：随机
+                sheep.setColor(colors[randomIndex]);
+
+                //取消伤害事件发生
+                event.setCancelled(true);
+            }
+        }
+    }
 }
