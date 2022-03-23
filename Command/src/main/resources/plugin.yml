@@ -1,20 +1,55 @@
 name: Command
 version: '${project.version}'
-main: com.senko.command.CommandLear
+main: com.senko.command.Command
 api-version: 1.18
 authors: [ senko ]
 description: 玩家指令发送
+
+
+#指令&权限：
+#指令的触发需要CommandSender拥有对应的Permission权限
+#如果在定义指令时并没有显式声明，则默认需要OP权限。
+
+#指令声明
 commands:
+  #自定义指令：不能以 / 开头
   suicide:
-    usage: "/<command>"
-    aliases:
-      - s
-      - s1
+    #指令描述
     description: 自杀
+    #错误使用提示 当CommandExecutor#onCommand函数返回false时，就会根据该key的value用来提示玩家
+    # /<command> 会被自动代替为 "/suicide"
+    usage: /<command>
+    #指令的别名：/s1 /s2 /s3 都会被认为是/suicide指令
+    aliases: [s1, s2, s3]
+    #指令的权限：如果不在下面显式声明该permission，则默认为OP才能使用
+    permission: senko.suicide
+    #无权限提示：当CommandSender指令发送者没有足够的权限时，就会被提示该信息
+    permission-message: 哦，你好像没有使用该指令的权限~
+  #自定义指令：
+  god:
+    description: 切换为上帝模式，让你不会受到任何伤害~
+    usage: /<command>
+    # yml文件的另一种list值表达方式
+    aliases:
+      - g1
+      - g2
+      - g3
+    permission: senko.god
+    permission-message: 只有OP才能使用该指令哦。
   tc:
-    usage: "/<command>"
+    usage: /<command>
     description: 测试Handler注册指令
+
+#Permissions权限声明
 permissions:
+  #自定义权限名
+  senko.suicide:
+    description: 自杀权限
+    #设置默认值，true：全部玩家都能使用，op：只能让op使用
+    default: true
+  senko.god:
+    description: 成为上帝
+    default: op
   tc.help:
     # default: true意味着所有玩家都有权限
     default: true

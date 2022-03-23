@@ -10,12 +10,14 @@
         <module name="Configuration" />
         <module name="Command" />
         <module name="HelloWorld" />
+        <module name="featureTest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Command" target="1.8" />
       <module name="Configuration" target="1.8" />
       <module name="EventListener" target="1.8" />
+      <module name="featureTest" target="1.8" />
       <module name="HelloWorld" target="1.8" />
     </bytecodeTargetLevel>
   </component>

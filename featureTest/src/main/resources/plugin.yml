@@ -1,0 +1,10 @@
+name: FeatureTest
+version: '${project.version}'
+main: com.senko.featuretest.FeatureTest
+api-version: 1.18
+authors: [ senko ]
+description: 测试一些特性或理论问题
+commands:
+  testL:
+    description: 测试下Location对象的克隆问题
+    usage: /<command> [copy | clone]
