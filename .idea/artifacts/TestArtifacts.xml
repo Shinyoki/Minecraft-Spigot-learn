@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TestArtifacts">
+    <output-path>$PROJECT_DIR$/../spigot/plugins</output-path>
+    <root id="archive" name="TestArtifacts.jar">
+      <element id="module-output" name="Configuration" />
+      <element id="file-copy" path="$PROJECT_DIR$/Configuration/src/main/resources/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/Configuration/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
