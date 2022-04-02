@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.senko</groupId>
-    <artifactId>HelloWorld</artifactId>
+    <artifactId>InventoryPlugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>HelloWorld</name>
+    <name>InventoryPlugin</name>
 
-    <description>这是我的第一个Minecraft Spigot Plugin</description>
+    <description>测试插件对物品栏的操作</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,7 +27,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
-
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -41,9 +40,6 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputDirectory>
-                                E:\Minecraft\spigot\plugins
-                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -75,5 +71,6 @@
             <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 </project>

@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/HelloWorld/pom.xml" />
         <option value="$PROJECT_DIR$/Configuration/pom.xml" />
         <option value="$PROJECT_DIR$/featureTest/pom.xml" />
+        <option value="$PROJECT_DIR$/InventoryPlugin/pom.xml" />
       </list>
     </option>
   </component>

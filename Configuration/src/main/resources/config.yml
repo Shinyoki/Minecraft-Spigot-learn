@@ -1,9 +1,10 @@
 senko:
-  list:
+  list:           #list
     - 1
     - 2
     - abc
-  map:
-    - {name: senko, count: 1, speed: 3.2f}
-  age: 11
-  disabled: false
+  map:            #MapList
+    - {name: senko, count: 1, speed: 3.3f}
+    - {name: senko2, count: 2, speed: 2.2f}
+  age: 11         #11
+  disabled: false #false

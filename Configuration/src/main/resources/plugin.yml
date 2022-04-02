@@ -4,3 +4,6 @@ main: com.senko.configuration.Configuration
 api-version: 1.18
 authors: [ senko ]
 description: 配置读取、设置
+commands:
+  change:
+    description: 改变location

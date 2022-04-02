@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="InventoryPlugin" />
         <module name="EventListener" />
         <module name="Configuration" />
         <module name="Command" />
@@ -19,6 +20,10 @@
       <module name="EventListener" target="1.8" />
       <module name="featureTest" target="1.8" />
       <module name="HelloWorld" target="1.8" />
+      <module name="InventoryPlugin" target="1.8" />
+      <module name="teestIdeaSpigot" target="1.8" />
+      <module name="TestIdeaDebugSpigot" target="1.8" />
+      <module name="testIdeaSpigot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

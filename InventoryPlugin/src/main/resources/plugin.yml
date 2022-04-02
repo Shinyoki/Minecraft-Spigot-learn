@@ -1,0 +1,10 @@
+name: InventoryPlugin
+version: '${project.version}'
+main: com.senko.inventoryplugin.InventoryPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 测试插件对物品栏的操作
+commands:
+  open:
+    description: 打开一个箱子
+    usage: /<command>

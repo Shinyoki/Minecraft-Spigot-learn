@@ -12,29 +12,9 @@ public final class HelloWorld extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("==========HelloWorld============");
-        System.out.println("HelloWorld");
-        getLogger().info(ChatColor.GREEN + "HelloWorld");
-
-        FileConfiguration config = getConfig();
-
-        Object o = config.get("senko.age");
-
-        config.set("senko.age",21);
-
-        try {
-            config.save(new File(getDataFolder(), "config.yml"));
-            reloadConfig();
-            System.out.println(getConfig().get("senko.age"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        System.out.println(ChatColor.GREEN + "==========HelloWorld2============");
+        System.out.println(ChatColor.GREEN + "HelloWorld2");
+        getLogger().info(ChatColor.GREEN + "HelloWorld2");
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
 }
