@@ -17,6 +17,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.LinkedList;
 
 public class RemoteInventoryCommandExecutor implements CommandExecutor {
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("open")) {
@@ -60,3 +62,4 @@ public class RemoteInventoryCommandExecutor implements CommandExecutor {
         return false;
     }
 }
+

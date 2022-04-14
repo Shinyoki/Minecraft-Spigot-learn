@@ -6,10 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="InventoryPlugin" />
-        <module name="EventListener" />
         <module name="Configuration" />
         <module name="Command" />
+        <module name="InventoryPlugin" />
+        <module name="EventListener" />
+        <module name="CustomEventPlugin" />
         <module name="HelloWorld" />
         <module name="featureTest" />
       </profile>
@@ -17,6 +18,7 @@
     <bytecodeTargetLevel>
       <module name="Command" target="1.8" />
       <module name="Configuration" target="1.8" />
+      <module name="CustomEventPlugin" target="1.8" />
       <module name="EventListener" target="1.8" />
       <module name="featureTest" target="1.8" />
       <module name="HelloWorld" target="1.8" />

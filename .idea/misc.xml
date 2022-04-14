@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/Configuration/pom.xml" />
         <option value="$PROJECT_DIR$/featureTest/pom.xml" />
         <option value="$PROJECT_DIR$/InventoryPlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/CustomEventPlugin/pom.xml" />
       </list>
     </option>
   </component>

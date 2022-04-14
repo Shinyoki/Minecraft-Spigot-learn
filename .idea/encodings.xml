@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/Command/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Configuration/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Configuration/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CustomEventPlugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CustomEventPlugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EventListener/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EventListener/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/HelloWorld/src/main/java" charset="UTF-8" />

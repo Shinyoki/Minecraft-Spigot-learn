@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Command/Command.iml" filepath="$PROJECT_DIR$/Command/Command.iml" />
       <module fileurl="file://$PROJECT_DIR$/Configuration/Configuration.iml" filepath="$PROJECT_DIR$/Configuration/Configuration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CustomEventPlugin/CustomEventPlugin.iml" filepath="$PROJECT_DIR$/CustomEventPlugin/CustomEventPlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/EventListener/EventListener.iml" filepath="$PROJECT_DIR$/EventListener/EventListener.iml" />
       <module fileurl="file://$PROJECT_DIR$/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/HelloWorld/HelloWorld.iml" />
       <module fileurl="file://$PROJECT_DIR$/InventoryPlugin/InventoryPlugin.iml" filepath="$PROJECT_DIR$/InventoryPlugin/InventoryPlugin.iml" />

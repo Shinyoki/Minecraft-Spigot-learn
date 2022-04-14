@@ -1,5 +1,7 @@
 package com.senko.featuretest;
 
+import com.senko.featuretest.listener.OnEatEventListener;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,6 +14,7 @@ public final class FeatureTest extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getCommand("testL").setExecutor(this);
+        Bukkit.getPluginManager().registerEvents(new OnEatEventListener(), this);
     }
 
     @Override
