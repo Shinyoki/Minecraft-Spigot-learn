@@ -1,6 +1,7 @@
 package com.senko.customeventplugin.executor;
 
 import com.senko.customeventplugin.event.GodBowEvent;
+import com.senko.customeventplugin.pojo.GodBow;
 import com.senko.customeventplugin.utils.InventoryUtils;
 
 import org.bukkit.ChatColor;
@@ -33,7 +34,7 @@ public class GodBowCommandExecutor implements CommandExecutor {
 //            }
             if (sender instanceof Player && sender.hasPermission("senko.godbow")) {
                 Player player = (Player) sender;
-                if (!InventoryUtils.add(player.getInventory(), createGodBow())) {
+                if (!InventoryUtils.add(player.getInventory(), GodBow.createGodBow())) {
                     //背包满了
                     player.sendMessage(ChatColor.RED + "背包已满，请清理后再试");
                     return true;
@@ -48,29 +49,6 @@ public class GodBowCommandExecutor implements CommandExecutor {
     }
 
 
-    /**
-     * 发一把神弓
-     * @return
-     */
-    private ItemStack createGodBow() {
-        ItemStack bow = new ItemStack(Material.BOW);
-        ItemMeta bowMeta = bow.getItemMeta();
-        bowMeta.setDisplayName(ChatColor.GREEN + "神弓");
-        bowMeta.addEnchant(Enchantment.DURABILITY, 1,false);
-        bowMeta.addEnchant(Enchantment.ARROW_KNOCKBACK, 1, false);
-
-        LinkedList<String> lores = new LinkedList<>();
-        lores.add(ChatColor.AQUA + "模式1：击退");
-        lores.add(ChatColor.AQUA + "模式2：雷击");
-        lores.add("\n");
-        lores.add(ChatColor.GREEN + "当前模式：" + ChatColor.YELLOW + "击退" + ChatColor.GRAY + "[1]");
-        lores.add("\n");
-        lores.add(ChatColor.GOLD + "左键切换模式!");
-        bowMeta.setLore(lores);
-
-        bow.setItemMeta(bowMeta);
-        return bow;
-    }
 
 
 }

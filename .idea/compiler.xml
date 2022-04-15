@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Configuration" />
         <module name="Command" />
+        <module name="CustomRecipe" />
         <module name="InventoryPlugin" />
         <module name="EventListener" />
         <module name="CustomEventPlugin" />
@@ -16,9 +17,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="code-learning" target="1.8" />
       <module name="Command" target="1.8" />
       <module name="Configuration" target="1.8" />
       <module name="CustomEventPlugin" target="1.8" />
+      <module name="CustomRecipe" target="1.8" />
       <module name="EventListener" target="1.8" />
       <module name="featureTest" target="1.8" />
       <module name="HelloWorld" target="1.8" />

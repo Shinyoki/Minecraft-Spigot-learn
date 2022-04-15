@@ -100,20 +100,18 @@ public class GodBowEventListener implements Listener {
      */
     private void execute(Entity entity, ItemStack bow) {
         System.out.println("准备执行");
-        if (entity != null && entity instanceof Player && bow != null) {
+        if (entity != null && bow != null) {
             //如果被击中者是玩家
             //提取GodBow对象
-            if (GodBowHolder.contains(bow)) {
-                GodBow godBow = GodBowHolder.get(bow);
-                System.out.println("当前模式是" + godBow.getMode().getModeName());
-                if (godBow.getMode() == EnumBowMode.LIGHTING) {
-                    Player player = (Player) entity;
-                    Location location = player.getLocation();
+            if (GodBow.getBowInfo(bow) != null)
+                System.out.println("当前模式是" + GodBow.getBowInfo(bow).getModeName());
+                if (GodBow.getBowInfo(bow) == EnumBowMode.LIGHTING) {
+                    Location location = entity.getLocation();
                     World world = location.getWorld();
                     world.strikeLightning(location);
                 }
             }
-        }
     }
+
 
 }

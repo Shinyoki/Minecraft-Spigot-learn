@@ -15,6 +15,8 @@
         <option value="$PROJECT_DIR$/featureTest/pom.xml" />
         <option value="$PROJECT_DIR$/InventoryPlugin/pom.xml" />
         <option value="$PROJECT_DIR$/CustomEventPlugin/pom.xml" />
+        <option value="$PROJECT_DIR$/CustomRecipe/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
