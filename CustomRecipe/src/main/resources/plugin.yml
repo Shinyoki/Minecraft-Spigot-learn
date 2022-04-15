@@ -4,7 +4,7 @@ main: com.senko.customrecipe.CustomRecipe
 api-version: 1.18
 authors: [ senko ]
 description: 自定义物品合成
-commands:
-  open_shop:
-    description: 强制打开商店
 depend: [CustomEventPlugin]
+commands:
+  villager:
+    description: 生成一只特殊的村民

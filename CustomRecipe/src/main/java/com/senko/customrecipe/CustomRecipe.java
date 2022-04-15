@@ -1,11 +1,12 @@
 package com.senko.customrecipe;
 
 import com.senko.customeventplugin.pojo.GodBow;
-import com.senko.customrecipe.executor.OpenMerchant;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+
+
+import com.senko.customrecipe.executor.VillagerCommandExecutor;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -14,73 +15,64 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.font.TextHitInfo;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public final class CustomRecipe extends JavaPlugin {
 
+    /**
+     * 命名空间 {@link NamespacedKey}不可重复使用在不同配方里，
+     * 不可重名，否则会抛出
+     * {@link IllegalArgumentException}异常
+     */
     @Override
     public void onEnable() {
         /**
-         * 物品合成
-         * Shaped
+         * 熔炉自定义
          */
+        //命名空间
+        NamespacedKey key1 = new NamespacedKey(this, "furnace_recipe");
+        //煅烧结果
         ItemStack godBow = GodBow.createGodBow();
-        NamespacedKey nsKey = new NamespacedKey(this, "god_bow");
-        ShapedRecipe shapedRecipe = new ShapedRecipe(nsKey, godBow);
+        //熔炉配方
+        FurnaceRecipe furnaceRecipe = new FurnaceRecipe(key1,godBow,Material.DIRT,0f,3 * 20);
+        //加入到服务器中
+        Bukkit.addRecipe(furnaceRecipe);
+
+        /**
+         * 自定义工作台物品合成
+         * Shaped       定形
+         * Shapeless    不定形
+         * rows
+         * ["  P", "  S", "   "]
+         *
+         * "  P"
+         * "  S"
+         * "   "
+         *
+         * "P  "
+         * "S  "
+         * "   "
+         */
+        //命名空间
+        NamespacedKey craftKey = new NamespacedKey(this, "craft_table");
+        //结果
+        ShapedRecipe shapedRecipe = new ShapedRecipe(craftKey, godBow);
+        //原材料的摆放方式
         shapedRecipe.shape(
-                "B",
-                "S"
+                "  P",
+                "  S",
+                "   "
         );
-        shapedRecipe.setIngredient('B', Material.BLAZE_POWDER);
+        //指定摆放方式中的字符所代表的原材料
+        shapedRecipe.setIngredient('P', Material.BLAZE_POWDER);
         shapedRecipe.setIngredient('S', Material.SLIME_BALL);
-        System.out.println("得到的神弓配方group："+shapedRecipe.getGroup());
+        //加入到服务器中
         Bukkit.addRecipe(shapedRecipe);
 
         /**
-         * 物品合成
-         * Shapeless
+         * 村民的自定义交易
          */
-        ItemStack dia = new ItemStack(Material.DIAMOND_BLOCK);
-        NamespacedKey nsKey2 = new NamespacedKey(this, "dia_block");
-
-        ShapelessRecipe diaRecipe = new ShapelessRecipe(nsKey2, dia);
-        diaRecipe.addIngredient(2, Material.BLAZE_POWDER);
-        diaRecipe.addIngredient(2, Material.DIRT);
-
-        Bukkit.addRecipe(diaRecipe);
-
-        getCommand("open_shop").setExecutor(new OpenMerchant());
-
-        /**
-         * Villager MerchantRecipe
-         */
-        //spawn a farmer villager fast
-        Villager farmer = (Villager) getServer().getWorld("world").spawnEntity(getServer().getWorld("world").getSpawnLocation(), EntityType.VILLAGER);
-        farmer.setProfession(Villager.Profession.FARMER);
-        farmer.setAI(false);
-
-        MerchantRecipe recipe = null;
-        // create list of merchant recipes:
-        List<MerchantRecipe> merchantRecipes = new ArrayList<MerchantRecipe>();
-
-        recipe = new MerchantRecipe(new ItemStack(Material.FEATHER), 13); // high max purchase limit
-        recipe.addIngredient(new ItemStack(Material.DIRT)); // what's required to buy it
-        merchantRecipes.add(recipe);
-
-        farmer.setRecipes(merchantRecipes);
-
-        /**
-         * FurnaceRecipe
-         * 不要重复声明和使用同名的namespaceKey，否则会报出 {@link IllegalArgumentException} 异常
-         */
-        FurnaceRecipe dirtRecipe = new FurnaceRecipe(new NamespacedKey(this, "god_bow_furnace"), godBow, Material.DIRT, 0f, 3 * 20);
-//        FurnaceRecipe dirtRecipe = new FurnaceRecipe(nsKey, godBow, Material.DIRT, 0f, 3 * 20);
-
-        Bukkit.addRecipe(dirtRecipe);
+        getCommand("villager").setExecutor(new VillagerCommandExecutor());
 
     }
-
 }
