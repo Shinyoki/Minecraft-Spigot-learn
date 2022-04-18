@@ -1,0 +1,9 @@
+name: ThreadPlugin
+version: '${project.version}'
+main: com.senko.threadplugin.ThreadPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 测试Spigot插件的线程调用
+commands:
+  stuck:
+    description: 执行同步或异步的线程任务

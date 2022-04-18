@@ -1,0 +1,310 @@
+package com.senko.textcomponentplugin.executor;
+
+
+import com.senko.textcomponentplugin.TextComponentPlugin;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarFlag;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
+
+
+/**
+ * 打印文本
+ */
+
+public class PrintCommand implements CommandExecutor {
+
+
+    /**
+     * 文本样式：                                                                                    <br>
+     * ChatColor有两类，一种是Bukkit的 {@link ChatColor} ，最终会以String的形式存在于字符串中。                         <br>
+     * 而Bungeecord的 {@link net.md_5.bungee.api.ChatColor}则是以类的形式作为{@link BaseComponent}的属性来使用，并不是简单的String字符串。                           <br>
+     * 像 [可点击的文本，积分栏...]这些特殊的文本，则被归类为 {@link BaseComponent}的实现类。 <br>
+     * 这里推荐一个可以查看颜色代码的网站：<a href="https://htmlcolorcodes.com/zh/minecraft-yanse-daima/">点击此处</a>            <br>
+     *<br>
+     * Bukkit的ChatColor提供了 {@link ChatColor#translateAlternateColorCodes(char, String)}函数，可以将String字符串中的特殊字符char替换为颜色代码§，<br>
+     * 比如：<br>
+     * <code>
+     *     ChatColor.translateAlternateColorCodes('&', "&l&6你好啊&e我的朋友");
+     * </code>
+     * <br>
+     * 结果是："§l§6你好啊§e我的朋友"
+     *
+     * @param sender
+     * @param command
+     * @param label
+     * @param args
+     * @return
+     */
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (label.equalsIgnoreCase("print") && sender instanceof Player) {
+            Player player = (Player) sender;
+            if (args.length == 0) {
+                return false;
+            } else {
+                String arg = args[0];
+                player.sendMessage("\n案例" + arg + "：\n");
+                switch (arg) {
+
+                    case "1":
+                        /** ===============案例1 Bukkit ChatColor ====================== */
+                        //详情情况函数注解
+                         executeFun1(player);
+                         break;
+
+                    case "2":
+                        /** ===============案例2 ChatColor的小特性======================== */
+                         executeFun2(player);
+                         break;
+
+                    case "3":
+                        /** ===============案例3 Bungeecord ComponentBuilder ============ */
+                         executeFun3(player);
+                         break;
+
+                    case "4":
+                        /** ===============案例4 Bungeecord TextComponent ===============*/
+                         executeFun4(player);
+                         break;
+
+                    case "5":
+                        /** ===============案例5 点击文本组件所发送的指令 ====================*/
+                        String res = ChatColor.translateAlternateColorCodes('&', "&l&4被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！被发现了！");
+                        player.sendMessage(res);
+                        break;
+
+                    case "6":
+                        /** ===============案例6 Bungeecord KeybindComponent =============*/
+                         executeFun6(player);
+                         break;
+
+
+                    case "7":
+                        /** ==============案例7 Bungeecord ScoreComponent ================*/
+                        player.sendMessage(ChatColor.RED + "本次视频暂不讲解，留给后续篇章！");
+                        break;
+
+                    case "8":
+                        /** ==============案例8 Player SendTitle =========================*/
+                        executeFun8(player);
+                        break;
+
+                    case "9":
+                        /** ==============案例9 Boss Bar ================================*/
+                        executeFun9(player);
+                        break;
+                    default:
+                        return true;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 单纯的向玩家发送转译好的彩色字符串<br><br>
+     *
+     * {@link Player#sendMessage }所发送的 彩色字符串，他们的样式并不连续。<br>
+     * "&2&l你好&a我的朋友"。<br>
+     * 2对应绿色，a对应红色，l对应粗体。给“你好”设置粗体，当后面有新的颜色代码时，“我的朋友”就不会保持前者的粗体状态<br><br>
+     * （我不会打§这个字符，所以。。。。有关彩色字符串的就全部用ChatColor#translateAlternateColorCodes()函数转译了）
+     * @param player
+     * @return 指令执行正确与否（正确）
+     */
+    private boolean executeFun1(Player player) {
+        String res = ChatColor.translateAlternateColorCodes('&', "&2&l你好&a我的朋友");
+        //发送具有样式的文本
+        player.sendMessage(res);
+        //发送 原始文本，不会处理颜色字符
+        player.sendRawMessage(res);
+        return true;
+    }
+
+
+    /**
+     * 虽然这里的文本与fun1案例非常相似，但是使用后你会发现<br>
+     * 先有颜色再有粗体的字符串，并不能正确的显示粗体。<br>
+     * 所以正确的做法是"先输出字体再输出色彩"
+     * @param player
+     * @return
+     */
+    private void executeFun2(Player player) {
+        String res = ChatColor.translateAlternateColorCodes('&', "&l&2你好&a我的朋友");
+        player.sendMessage(res);
+    }
+
+    /**
+     * {@link ComponentBuilder}组件构造器，内部维护了BaseComponent集合，并使用cursor作为下标来确定 #color() / #bold() / ...等函数所操作的 {@link BaseComponent} 对象 <br><br>
+     * 每次设置颜色#color()、字体#font()、粗体#bold()、删除线等文本样式，需要先 #append()再使用那些函数，因为这些样式函数都是属于BaseComponent对象自己而非Builder。
+     * @param player
+     * @return
+     */
+    private void executeFun3(Player player) {
+        ComponentBuilder builder = new ComponentBuilder();
+        /**
+         * 组件构造器的使用比较特殊，要先append再指定文本样式
+         */
+        BaseComponent[] components = builder
+                //链式编程
+                .append("你好").color(net.md_5.bungee.api.ChatColor.GREEN).bold(true)  //component  cursor == 0
+                .append("我的朋友").color(net.md_5.bungee.api.ChatColor.YELLOW)         //component  cursor == 1
+                //构建 组件数组
+                .create();
+        /**
+         * Component组件的输出需要
+         */
+        Player.Spigot spigot = player.spigot();
+        player.sendMessage("得到的Player.Spigot:" + spigot.getClass().getName());
+        spigot.sendMessage(components);
+    }
+
+    /**
+     * 不用组件构造器，直接new出BaseComponent抽象类的实现类。 <br><br>
+     *
+     * 向玩家 {@link Player}等 {@link CommandSender}发送特殊组件
+     */
+    private void executeFun4(Player player) {
+        //文本组件1
+        TextComponent text = new TextComponent("你好");
+        //obfuscated混淆的文本，你无法看到“你好”二字，只能看到正在不停变化的看不懂的文字。
+        text.setObfuscated(true);
+
+        /**
+         * 添加点击和悬停事件
+         * 这些事件是自己new出来后自动触发的，不需要Bukkit.getPluginManager().callEvent()手动触发监听
+         *
+         * ClickEvent.Action.RUN_COMMAND：点击事件 发送指令，实际上还是发送文本，不信你把斜杠/去掉试试
+         */
+        //Click点击事件 Hover悬浮鼠标事件
+        text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/print 5"));
+        text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("爱丽丝在哪里？")));
+
+        //文本组件2
+        TextComponent text2 = new TextComponent("我的朋友");
+        //text.addExtra(text2); //不推荐
+        /**
+         * 以多参的形式发送，如果只是text1.addExtra(text2)，玩家得到的整段文字都是可点击的
+         */
+        player.spigot().sendMessage(text,text2);
+
+
+        /**
+         * 改正：以后的控制台打印尽量使用Logger日志输出，这样可以持久化输出过的信息，而不是打印后就找不到了。
+         */
+        TextComponentPlugin.getInstance().getLogger().info("plugin发送了一条消息");
+    }
+
+    /**
+     * 玩家绑定的按键                      <br>
+     * Spigot可以获取到玩家的 攻击、丢弃物品等快捷键所绑定的案件是什么。<br>
+     * 按键key的类型可以参考 <a href="https://minecraft.fandom.com/zh/wiki/%E6%8E%A7%E5%88%B6">MC wiki</a>   以及{@link Keybinds}  <br>
+     * 服务器可以根据客户端的 ”语言和绑定的按键” 来决定应该输出哪种语言的按键名称。
+     * @param player
+     * @return
+     */
+    private void executeFun6(Player player) {
+
+        KeybindComponent key1 = new KeybindComponent();
+        //攻击，默认左键---------- 英文：Left Button 中文：左键
+        key1.setKeybind("key.attack");
+        key1.addExtra("：攻击键");
+
+        KeybindComponent key2 = new KeybindComponent();
+        //丢弃物品，默认Q键------ 我自定义的是R键  英文：r  中文：r
+        key2.setKeybind("key.drop");
+        key2.addExtra("：丢弃物品");
+
+        //玩家列表，默认Tab键---- 我定义的是`键    英文：   中文：
+        KeybindComponent key3 = new KeybindComponent("key.playerlist");
+        key3.addExtra(":玩家列表");
+
+
+        //聊天框位置显示
+        player.spigot().sendMessage(key1);
+        //行动条位置？总之是经验条上面的地方
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,key2);
+        //居然还是聊天框位置显示
+        player.spigot().sendMessage(ChatMessageType.SYSTEM,key3);
+    }
+
+
+    /**
+     * 发送title和subTitle
+     * 这是Spigot提供的功能，用的当然就是Spigot的ChatColor <br>
+     * 不能传入 {@link BaseComponent}组件 :/
+     * @param player 玩家<br>
+     * 实参：      <br>
+     * title – 标题<br>
+     * subtitle – 副标题<br>
+     * fadeIn – 渐变出现 所花费的时间(单位tick)，默认10<br>
+     * stay – 标题停留在屏幕上的时间(单位tick)，默认70<br>
+     * fadeOut – 渐变消失 所花费的时间(单位tick)，默认20<br>
+     */
+    private void executeFun8(Player player) {
+        player.sendTitle(ChatColor.GREEN + "你好", ChatColor.YELLOW + "我的朋友", 10, 70, 20);
+    }
+
+    /**
+     *  BossBar 也就是打末影龙、凋零时出现的boss血条<br>
+     *  创建好的bossBar默认不会提示给所有玩家，需要使用 {@link BossBar#addPlayer(Player)}来指定谁会收到提示。<br>
+     *  同理，不想让玩家看到bossBar就要用到 {@link BossBar#removePlayer(Player)} 或 {@link BossBar#removeAll()} <br><br>
+     *  如果只是单纯的将进度条设置为0，玩家依旧能看到进度条。<br>
+     *  <code>
+     *      bossBar.setProgress(0d);  // 仍会显示
+     *  </code>
+     * @param player
+     */
+    private void executeFun9(Player player) {
+        //通过Bukkit创建BossBar实例，指定bossBar的名称、颜色、会被分成多少片段 以及 BarFlag
+        BossBar bossBar = Bukkit.createBossBar("Senkosan", BarColor.YELLOW, BarStyle.SEGMENTED_6, BarFlag.CREATE_FOG);
+        //用bossBar对象添加玩家，只有该玩家才能看见boss进度条
+        bossBar.addPlayer(player);
+
+        //拿到插件实例
+        TextComponentPlugin plugin = TextComponentPlugin.getInstance();
+        //拿到Schedule线程调度器
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        //虽然在这个案例里不会发生共享资源争夺的情况，但还是建议尽量使用Atomic类型的元素
+        AtomicInteger atomicInteger = new AtomicInteger(6);
+        //执行异步循环任务，拿到taskId
+        int taskId = scheduler.scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                player.sendMessage("当前的boss bar进度：" + atomicInteger.get() * (1d / 6d));
+                //修改进度条进度，实参是double类型
+                bossBar.setProgress(atomicInteger.decrementAndGet() * (1d / 6d));
+            }
+        }, 0, 2 * 20); //为什么连Thread Task都要以tick为单位啊喂
+        //根据taskId取消 repeatAsyncTask的重复执行
+        scheduler.runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                //移除玩家，不让玩家继续看到进度条
+                bossBar.removePlayer(player);
+                //取消 repeatAsyncTask的重复执行
+                scheduler.cancelTask(taskId);
+            }
+        },6 * 2 * 20);
+    }
+
+}
+
+
+

@@ -1,0 +1,10 @@
+name: TextComponentPlugin
+version: '${version}'
+main: com.senko.textcomponentplugin.TextComponentPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 测试聊天栏文本输入以及玩家的点击事件
+commands:
+  print:
+    description: 打印聊天栏文本
+    usage: /print [1|2|...]
