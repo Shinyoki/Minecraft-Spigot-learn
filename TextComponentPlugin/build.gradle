@@ -19,9 +19,6 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
-    //给gradle添加一个lombok依赖
-//    compileOnly 'org.projectlombok:lombok:1.18.8'
-//    annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
 
 def targetJavaVersion = 17
