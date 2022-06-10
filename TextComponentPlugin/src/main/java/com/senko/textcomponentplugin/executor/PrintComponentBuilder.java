@@ -55,7 +55,7 @@ public class PrintComponentBuilder implements CommandExecutor {
                 .append("迎").color(color6)      //不单独构造，则会继承上一个组件的event事件等属性
                 .create();
 
-        BaseComponent[] result = new TextComponent[]{new TextComponent(components1), new TextComponent(components2), new TextComponent(components3)};
+        TextComponent[] result = new TextComponent[]{new TextComponent(components1), new TextComponent(components2), new TextComponent(components3)};
         //发送 组件
         player.spigot().sendMessage(result);
     }

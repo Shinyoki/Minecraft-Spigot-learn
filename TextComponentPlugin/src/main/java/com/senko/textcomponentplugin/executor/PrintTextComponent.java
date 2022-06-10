@@ -62,8 +62,10 @@ public class PrintTextComponent implements CommandExecutor {
         text2.setObfuscated(true);
         text2.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 
+        //组件的拼接会自动继承上一个组件的颜色、粗体、斜体、鼠标事件等属性
         text1.addExtra(text2);                                         //拼接下一段信息
 
+        //player.spigot().sendMessage(text1, text2); 不想拼接的话，可以这样写，记得不要用text1.addExtra(text2);
         return text1;
     }
 

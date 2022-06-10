@@ -36,7 +36,7 @@ public class PrintKeyBind implements CommandExecutor {
 
     private void executeFun(Player player) {
         KeybindComponent key1 = new KeybindComponent();
-        key1.setKeybind("key.attack");          //攻击，默认左键
+        key1.setKeybind(Keybinds.ATTACK);          //攻击，默认左键
         key1.addExtra("：攻击键");
 
         KeybindComponent key2 = new KeybindComponent();

@@ -44,7 +44,7 @@ public class PrintBossBar implements CommandExecutor {
      */
     private void executeFun(Player player) {
         //通过Bukkit创建BossBar
-        BossBar bossBar = Bukkit.createBossBar("这是BOSS条的名字", BarColor.GREEN, BarStyle.SEGMENTED_6, BarFlag.CREATE_FOG);
+        BossBar bossBar = Bukkit.createBossBar("这是BOSS条的名字", BarColor.GREEN, BarStyle.SEGMENTED_6, BarFlag.DARKEN_SKY);
         bossBar.addPlayer(player);                   //用bossBar对象添加玩家，只有该玩家才能看见boss进度条
 
         //创建定时任务
@@ -66,6 +66,7 @@ public class PrintBossBar implements CommandExecutor {
             @Override
             public void run() {
                 bossBar.removePlayer(player);           //移除玩家，不让玩家继续看到进度条
+                bossBar.setVisible(false);              //设置进度条不可见
                 scheduler.cancelTask(taskId);           //取消任务
             }
         }, 6 * 2 * 20);                           //6秒后执行

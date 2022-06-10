@@ -1,5 +1,6 @@
 package com.senko.textcomponentplugin.executor;
 
+import com.senko.textcomponentplugin.TextComponentPlugin;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
@@ -70,7 +71,12 @@ public class PrintMessage implements CommandExecutor {
 
         //发送 纯文本            这里也是用了toString()特性
         String pureText = MessageFormat.format("{0}大{1}家{2}好{3}啊{4}欢{5}迎", color1, color2, color3, color4, color5, color6);
+        // pureText.equals(message) == true
+        String message = color1 + "大" + color2 + "家" + color3 + "好" + color4 + "啊" + color5 + "欢" + color6 + "迎";
         player.sendMessage(pureText + ChatColor.translateAlternateColorCodes('&', "       &f sent in pure text form!"));
 
+
+        //color1实际对应的颜色代码
+        TextComponentPlugin.getInstance().getLogger().info( "color1实际对应的颜色代码" + color1);
     }
 }
