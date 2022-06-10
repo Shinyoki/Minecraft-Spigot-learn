@@ -1,7 +1,7 @@
 package com.senko.textcomponentplugin.executor;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,20 +68,7 @@ public class PrintMessage implements CommandExecutor {
         net.md_5.bungee.api.ChatColor color5 = net.md_5.bungee.api.ChatColor.of("#F1C40F");
         net.md_5.bungee.api.ChatColor color6 = net.md_5.bungee.api.ChatColor.of("#D4AC0D");
 
-        BaseComponent[] components = new ComponentBuilder()
-                .append("大").color(color1)
-                .append("家").color(color2)
-                .append("好").color(color3)
-                .append("啊").color(color4)
-                .append("欢").color(color5)
-                .append("迎").color(color6)
-                .append("       sent in components form!").color(net.md_5.bungee.api.ChatColor.WHITE)
-                .create();
-
-        //发送 组件
-        player.spigot().sendMessage(components);
-
-        //发送 纯文本
+        //发送 纯文本            这里也是用了toString()特性
         String pureText = MessageFormat.format("{0}大{1}家{2}好{3}啊{4}欢{5}迎", color1, color2, color3, color4, color5, color6);
         player.sendMessage(pureText + ChatColor.translateAlternateColorCodes('&', "       &f sent in pure text form!"));
 

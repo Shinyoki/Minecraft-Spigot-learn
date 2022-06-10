@@ -14,6 +14,9 @@ commands:
   print-text-component:
     description: 展示TextComponent的基本使用
     usage: /print-text-component
+  print-component-builder:
+    description: 展示ComponentBuilder的基本使用
+    usage: /print-component-builder
   print-boss-bar:
     description: 展示BossBar的基本使用
     usage: /print-boss-bar

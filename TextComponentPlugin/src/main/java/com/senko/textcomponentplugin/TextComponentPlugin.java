@@ -42,9 +42,10 @@ public final class TextComponentPlugin extends JavaPlugin {
     public void onEnable() {
         //注册指令  /help TextComponentPlugin
         getCommand("print").setExecutor(new PrintCommand());
-        getCommand("print-message").setExecutor(new PrintMessage());                //展示ChatColor的两种用法
-        getCommand("print-title").setExecutor(new PrintTitle());                    //向玩家的 屏幕中心 展示标题
-        getCommand("print-text-component").setExecutor(new PrintTextComponent());   //向玩家的 聊天框、物品栏上方 展示信息
+        getCommand("print-message").setExecutor(new PrintMessage());                        //展示ChatColor的两种用法
+        getCommand("print-title").setExecutor(new PrintTitle());                            //向玩家的 屏幕中心 展示标题
+        getCommand("print-text-component").setExecutor(new PrintTextComponent());           //向玩家的 聊天框、物品栏上方 展示信息
+        getCommand("print-component-builder").setExecutor(new PrintComponentBuilder());     //展示 ComponentBuilder 的用法
         getCommand("print-boss-bar").setExecutor(new PrintBossBar());
         getCommand("print-key-bind").setExecutor(new PrintKeyBind());
         instance = this;

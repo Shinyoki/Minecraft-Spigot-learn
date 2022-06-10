@@ -62,7 +62,6 @@ public class PrintTextComponent implements CommandExecutor {
         text2.setObfuscated(true);
         text2.setColor(net.md_5.bungee.api.ChatColor.GREEN);
 
-        //不推荐使用这种方式，因为这会导致text2也具备text1的鼠标点击和鼠标悬浮事件
         text1.addExtra(text2);                                         //拼接下一段信息
 
         return text1;
