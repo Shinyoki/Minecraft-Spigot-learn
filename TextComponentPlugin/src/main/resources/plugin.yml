@@ -5,6 +5,21 @@ api-version: 1.18
 authors: [ senko ]
 description: 测试聊天栏文本输入以及玩家的点击事件
 commands:
+  print-message:
+    description: 展示ChatColor的两种常用用法
+    usage: /print-message
+  print-title:
+    description: 在玩家的屏幕中心展示一个标题和一个副标题
+    usage: /print-title
+  print-text-component:
+    description: 展示TextComponent的基本使用
+    usage: /print-text-component
+  print-boss-bar:
+    description: 展示BossBar的基本使用
+    usage: /print-boss-bar
+  print-key-bind:
+    description: 展示玩家按键绑定信息
+    usage: /print-key-bind
   print:
     description: 打印聊天栏文本
     usage: /print [1|2|...]
