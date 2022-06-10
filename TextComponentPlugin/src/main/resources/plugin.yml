@@ -7,7 +7,7 @@ description: 测试聊天栏文本输入以及玩家的点击事件
 commands:
   print-message:
     description: 展示ChatColor的两种常用用法
-    usage: /print-message
+    usage: /print-message [1 | 2]
   print-title:
     description: 在玩家的屏幕中心展示一个标题和一个副标题
     usage: /print-title
