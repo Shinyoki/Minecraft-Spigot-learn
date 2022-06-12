@@ -5,6 +5,7 @@ import com.senko.scoreboardplugin.listener.ScoreBoardListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,7 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 public final class ScoreBoardPlugin extends JavaPlugin {
     private static ScoreBoardPlugin instance;
@@ -30,16 +35,21 @@ public final class ScoreBoardPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        Bukkit.getPluginManager().registerEvents(new ScoreBoardListener(), this);
-        getCommand("add-team").setExecutor(new TeamCommandExecutor());
-        getCommand("clear-score-board").setExecutor(this);
+        Bukkit.getPluginManager().registerEvents(new ScoreBoardListener(), this);      // 登录时添加自定义计分板
+        getCommand("add-team").setExecutor(new TeamCommandExecutor());                  // 给该玩家添加进入队伍
+        getCommand("clear-score-board").setExecutor(this);                              //用不着，忽略掉吧
 
         //当插件被reload以及启动时触发，将所有当前在线玩家添加到scoreboard
-        Bukkit.getOnlinePlayers().forEach(this::createScoreboardOnPluginEnabled);
-
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            Bukkit.getOnlinePlayers().forEach(this::createScoreboardOnPluginEnabled);         //lambda语法
+        }, 0, 20);                                                               //重复执行器，每1秒钟执行一次
     }
 
-
+    @Override
+    public void onDisable() {
+        //停止掉当前插件所生成的任务
+        Bukkit.getScheduler().cancelTasks(this);
+    }
 
     /**
      *  服务器本身可以通过调用 /scoreboard 指令来创建一个计分板，这种计分板由指令创建，可以被所有的玩家所看到，具有全局Global效果，又可以叫做MainScoreBoard。<br> <br>
@@ -81,11 +91,14 @@ public final class ScoreBoardPlugin extends JavaPlugin {
          * entry条目的字符长度存在限制，在1.13版本前是最大16个字符，在1.13版本后是最大64个字符。
          */
         //设置侧边栏内容
-        Score score1 = sideBarObjective.getScore("年龄: " + ChatColor.BLUE + 21);                //虽然写的是get，但是如果没get到就会创建一个新的Score
+        Score score1 = sideBarObjective.getScore("当前玩家: " + ChatColor.BLUE + player.getDisplayName());                //虽然写的是get，但是如果没get到就会创建一个新的Score
         score1.setScore(3);                                                                     //设置分数为3，最大，因此该条目会最展示在侧边栏计分项的最上面
-        sideBarObjective.getScore("性别: " + ChatColor.BLUE + "男").setScore(2);
-        sideBarObjective.getScore("等级: " + ChatColor.BLUE + player.getLevel()).setScore(1);
-        sideBarObjective.getScore("经验: " + ChatColor.BLUE + player.getExp()).setScore(0);
+        String lastLoginTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        sideBarObjective.getScore("当前时间: " + ChatColor.BLUE + lastLoginTime).setScore(2);
+        sideBarObjective.getScore("等级: " + ChatColor.GREEN + player.getLevel()).setScore(1);
+        sideBarObjective.getScore("经验: " + ChatColor.YELLOW + player.getExp()).setScore(0);
+        sideBarObjective.getScore("当前玩家总数：" + ChatColor.GRAY + Bukkit.getOnlinePlayers().size()).setScore(-1);
+        sideBarObjective.getScore("当前总击杀数：" + ChatColor.DARK_AQUA + player.getStatistic(Statistic.PLAYER_KILLS)).setScore(-2);
 
         /**
          * 玩家们计分项
@@ -103,7 +116,7 @@ public final class ScoreBoardPlugin extends JavaPlugin {
             underPlayerNameObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);                                 //设置该计分项显示在玩家名下方
         }
         underPlayerNameObjective.getScore(ChatColor.GREEN + "血量");
-        underPlayerNameObjective.getScore(ChatColor.RED + "危险！").setScore(10);
+        underPlayerNameObjective.getScore(ChatColor.RED + "危险！").setScore(30);                      //无效，哪怕30的Score比20血还高
 
         //最终将修改好的计分板赋值给玩家
         player.setScoreboard(scoreboard);
@@ -123,7 +136,6 @@ public final class ScoreBoardPlugin extends JavaPlugin {
 
             player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-
 
             return true;
         }

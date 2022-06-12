@@ -66,7 +66,11 @@ public class TeamCommandExecutor implements CommandExecutor {
         }
         team.setPrefix(ChatColor.GREEN + "[" + teamName + "] " + ChatColor.WHITE);         //设置玩家列表中位于该队伍的玩家的名称前缀
         team.setColor(teamNameMap.get(teamName));                                          //设置玩家列表中位于该队伍的玩家的名称颜色
-        team.addPlayer(player);
+        team.addPlayer(player);                                                            //将玩家加入到该队伍
+
+        //组队效果
+        team.setAllowFriendlyFire(false);                                                  //关闭友伤
+        team.setCanSeeFriendlyInvisibles(true);                                            //队友隐身时也可以看到
 
         player.setScoreboard(scoreboard);
     }
