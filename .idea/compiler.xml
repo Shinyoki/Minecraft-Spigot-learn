@@ -12,6 +12,7 @@
         <module name="ThreadPlugin" />
         <module name="InventoryPlugin" />
         <module name="EventListener" />
+        <module name="ScoreBoardPlugin" />
         <module name="CustomEventPlugin" />
         <module name="featureTest" />
         <module name="HelloWorld" />
