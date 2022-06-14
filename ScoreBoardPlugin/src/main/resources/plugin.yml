@@ -5,7 +5,5 @@ api-version: 1.18
 authors: [ senko ]
 description: 学习如何自定义积分板
 commands:
-  add-team:
-    description: 增加玩家到一个积分板队伍
-  clear-score-board:
-    description: 回到默认的scoreboard
+  simple-scoreboard:
+    description: 简单的积分板教程
