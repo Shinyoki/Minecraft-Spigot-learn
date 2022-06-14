@@ -1,0 +1,11 @@
+name: TabExecutorPlugin
+version: '${project.version}'
+main: com.senko.tabexecutorplugin.TabExecutorPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 指令填充提示案例插件
+commands:
+  info:
+    description: 指令填充提示案例插件
+  sub:
+    description: 子指令执行器

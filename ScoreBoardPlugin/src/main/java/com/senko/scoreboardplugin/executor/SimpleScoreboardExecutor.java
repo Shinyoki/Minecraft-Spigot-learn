@@ -253,4 +253,5 @@ public class SimpleScoreboardExecutor implements TabExecutor {
         }
         return result;
     }
+
 }

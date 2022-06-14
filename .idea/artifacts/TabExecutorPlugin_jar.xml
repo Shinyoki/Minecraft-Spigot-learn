@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TabExecutorPlugin:jar">
+    <output-path>$PROJECT_DIR$/../spigot/plugins</output-path>
+    <root id="archive" name="TabExecutorPlugin.jar">
+      <element id="module-output" name="TabExecutorPlugin" />
+    </root>
+  </artifact>
+</component>
