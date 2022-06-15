@@ -7,3 +7,13 @@ description: 学习如何自定义积分板
 commands:
   simple-scoreboard:
     description: 简单的积分板教程
+    # 懒得挨个写错误提示，就干脆用默认的错误提示了。在这里 §f是白色的 §6是橙色的 \n是换行符，这些都可以被正确渲染出来
+    # 用多了后就是基操（
+    usage:
+      " - §6/simple-scoreboard add <playerName> \n§f  添加玩家到更新队列\n
+       - §6/simple-scoreboard remove <playerName> \n§f  将玩家从更新玩家队列中移除\n
+       - §6/simple-scoreboard start \n§f  开启定时任务\n
+       - §6/simple-scoreboard stop  \n§f  关闭定时任务\n
+       - §6/simple-scoreboard reset \n§f  重置更新玩家队列\n
+       - §6/simple-scoreboard size  \n§f  查看更新玩家队列大小\n
+       - §6/simple-scoreboard switch [simple | no-flickering] \n§f  切换计分板的生成策略\n"

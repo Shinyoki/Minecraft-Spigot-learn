@@ -8,15 +8,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class ScoreBoardPlugin extends JavaPlugin {
     private static ScoreBoardPlugin instance;
 
+    /**
+     * 获取插件实例
+     * @return  插件实例
+     */
     public static ScoreBoardPlugin getInstance() {
         return instance;
     }
 
     @Override
     public void onEnable() {
-        instance = this;
-        getCommand("simple-scoreboard").setExecutor(new SimpleScoreboardExecutor());
-        Bukkit.getPluginManager().registerEvents(new OnPlayerQuitHandler(), this);
+        instance = this;                                                                          //初始化插件实例
+        getCommand("simple-scoreboard").setExecutor(new SimpleScoreboardExecutor());        //注册命令
+        Bukkit.getPluginManager().registerEvents(new OnPlayerQuitHandler(), this);         //注册监听器
     }
 
     @Override

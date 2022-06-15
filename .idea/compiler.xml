@@ -21,6 +21,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">
+      <module name="GodBowPlugin" target="1.8" />
       <module name="teestIdeaSpigot" target="1.8" />
       <module name="TestIdeaDebugSpigot" target="1.8" />
       <module name="testIdeaSpigot" target="1.8" />
