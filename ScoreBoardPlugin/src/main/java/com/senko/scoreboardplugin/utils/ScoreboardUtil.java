@@ -11,9 +11,9 @@ import org.bukkit.scoreboard.*;
 import java.util.*;
 
 /**
- * 无闪烁计分板
+ * 计分板工具类
  * 
- * 本案例主要用于理解如何实现无闪烁的计分板，并不适用于组队系统。
+ * 本案例主要用于理解如何实现动态无闪烁的计分板，并不适用于组队系统。
  *
  * 不同计分板内的队伍不一致，也无法直接通过定义相同队伍名来获取相同Team对象，
  * 只能让开发者在更新玩家计分板时先unregister()Team再重新赋值，
@@ -66,13 +66,40 @@ public class ScoreboardUtil {
      * 设置计分板的创建策略
      * @param creationStrategy {@link AbstractCreationStrategy} 计分板创建策略
      */
-    public static void setScoreboardCreationStrategy(AbstractCreationStrategy creationStrategy) {
+    public static boolean setScoreboardCreationStrategy(AbstractCreationStrategy creationStrategy) {
         if (Objects.isNull(creationStrategy)) {
-            throw new IllegalArgumentException("创建策略不能为空!");
+            return false;   //创建策略不能为空
         }
-        ScoreboardUtil.creationStrategy = creationStrategy;
+        resetUpdatePlayerMainScoreboard();                          //重置更新玩家的主计分板
+        ScoreboardUtil.creationStrategy = creationStrategy;         //设置计分板的创建策略
+        return true;
     }
 
+    /**
+     * 将更新队列中的玩家计分板改为主计分板，
+     * 避免在定时任务执行时因切换生成策略导致面板显示不正常
+     */
+    private static void resetUpdatePlayerMainScoreboard() {
+        playerSet.forEach(playerName -> {
+            if (validatePlayer(playerName)) {
+                Player player = Bukkit.getPlayer(playerName);
+                player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());        //将更新队列中的玩家计分板改为主计分板
+            }
+        });
+    }
+
+    /**
+     * 设置玩家的计分板
+     * @param player    玩家
+     * @return          计分板
+     */
+    public static boolean setScoreboard(Player player) {
+        if (Objects.isNull(player)) {
+            return false;
+        }
+        creationStrategy.setScoreboard(player);
+        return true;
+    }
 
     /**
      * 将玩家从需要更新列表中删除

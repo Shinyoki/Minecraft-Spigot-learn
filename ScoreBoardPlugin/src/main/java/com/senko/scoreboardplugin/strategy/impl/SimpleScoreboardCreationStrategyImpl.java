@@ -96,9 +96,9 @@ public class SimpleScoreboardCreationStrategyImpl implements AbstractCreationStr
         Objective nameBelowObjective = playerScoreboard.getObjective("name-below");
         if (Objects.isNull(nameBelowObjective)) {
             //未找到：初始化
-            nameBelowObjective = playerScoreboard.registerNewObjective("name-below", Criterias.HEALTH, ChatColor.GREEN + "玩家血量");
+            nameBelowObjective = playerScoreboard.registerNewObjective("name-below", "health", ChatColor.GREEN + "玩家血量");
             nameBelowObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);      //不要忘记设置显示位置
-            nameBelowObjective.setRenderType(RenderType.HEARTS);
+            nameBelowObjective.setRenderType(RenderType.HEARTS);            //只在 DisplaySlot.PLAYER_LIST 时会展示为爱心
         }
         //赋值 health准则时设置的entry都是无效的
         nameBelowObjective.getScore("这个Entry就算是设置了也不会显示，因为health准则时显示的该计分项的displayName").setScore(233);
@@ -127,6 +127,8 @@ public class SimpleScoreboardCreationStrategyImpl implements AbstractCreationStr
         redTeam.addEntry("iLiveOnFaith");                                   //添加iLiveOnFaith到队伍
         redTeam.addEntry("Senkosan");                                       //添加Senkosan到队伍
         ScoreboardUtil.changeTeamOptions(redTeam);                                         //设置队伍的属性
+
+
         //创建 蓝Team
         Team blueTeam = playerScoreboard.getTeam("蓝队");
         if (Objects.isNull(blueTeam)) {
@@ -138,7 +140,7 @@ public class SimpleScoreboardCreationStrategyImpl implements AbstractCreationStr
         /**
          * 多个队伍可以同时存在相同的Entry
          */
-        blueTeam.addEntry("iLiveOnFaith");
+//        blueTeam.addEntry("iLiveOnFaith");
         ScoreboardUtil.changeTeamOptions(blueTeam);
 
         //将设置好的计分板添加给玩家

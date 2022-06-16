@@ -3,6 +3,9 @@ package com.senko.scoreboardplugin;
 import com.senko.scoreboardplugin.executor.SimpleScoreboardExecutor;
 import com.senko.scoreboardplugin.listener.OnPlayerQuitHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ScoreBoardPlugin extends JavaPlugin {
@@ -20,7 +23,6 @@ public final class ScoreBoardPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;                                                                          //初始化插件实例
         getCommand("simple-scoreboard").setExecutor(new SimpleScoreboardExecutor());        //注册命令
-        Bukkit.getPluginManager().registerEvents(new OnPlayerQuitHandler(), this);         //注册监听器
     }
 
     @Override
@@ -28,6 +30,5 @@ public final class ScoreBoardPlugin extends JavaPlugin {
         //停止掉当前插件所生成的任务
         Bukkit.getScheduler().cancelTasks(this);
     }
-
 
 }
