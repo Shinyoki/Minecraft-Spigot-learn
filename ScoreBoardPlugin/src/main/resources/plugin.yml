@@ -15,6 +15,6 @@ commands:
        - §6/simple-scoreboard remove <playerName> \n§f  将玩家从更新玩家队列中移除\n
        - §6/simple-scoreboard start \n§f  开启定时任务\n
        - §6/simple-scoreboard stop  \n§f  关闭定时任务\n
-       - §6/simple-scoreboard reset \n§f  重置更新玩家队列\n
+       - §6/simple-scoreboard reset [all] \n§f  重置更新玩家队列\n
        - §6/simple-scoreboard size  \n§f  查看更新玩家队列大小\n
        - §6/simple-scoreboard switch [simple | no-flickering] \n§f  切换计分板的生成策略\n"

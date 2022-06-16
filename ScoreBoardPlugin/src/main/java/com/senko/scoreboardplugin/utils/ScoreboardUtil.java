@@ -70,8 +70,10 @@ public class ScoreboardUtil {
         if (Objects.isNull(creationStrategy)) {
             return false;   //创建策略不能为空
         }
+        stopTaskTimer();
         resetUpdatePlayerMainScoreboard();                          //重置更新玩家的主计分板
         ScoreboardUtil.creationStrategy = creationStrategy;         //设置计分板的创建策略
+        runTaskTimer();
         return true;
     }
 
@@ -139,6 +141,14 @@ public class ScoreboardUtil {
      */
     public static HashSet<String> getUpdatePlayerSet() {
         return (HashSet<String>) playerSet;
+    }
+
+    /**
+     * 显示更新队列中的玩家
+     * @return  更新队列中的玩家
+     */
+    public static String getUpdatePlayersToString() {
+        return ((HashSet<String>) playerSet).toString();
     }
 
     /**

@@ -71,7 +71,7 @@ public class SimpleScoreboardExecutor implements TabExecutor {
                         sender.sendMessage("添加玩家失败，请检查玩家是否存在且在线！");
                         return false;
                     }
-                    sender.sendMessage("添加玩家 " + args[1] + " 到需要更新的玩家列表。当前维护的玩家列表：" + ScoreboardUtil.getUpdatePlayerSet().toString());
+                    sender.sendMessage("添加玩家 " + args[1] + " 到需要更新的玩家列表。当前维护的玩家列表：" + ScoreboardUtil.getUpdatePlayersToString());
                 } else {
                     sender.sendMessage("参数错误，请检查参数！[在线玩家名]");
                     return false;
@@ -80,6 +80,7 @@ public class SimpleScoreboardExecutor implements TabExecutor {
                 if (args.length == 2 && ScoreboardUtil.validatePlayer(args[1])) {
                     //   /normal-scoreboard remove <player>
                     ScoreboardUtil.removeUpdatePlayer(Bukkit.getPlayer(args[1]));                     //从需要更新的玩家列表中移除一个玩家
+                    sender.sendMessage("删除玩家 " + args[1] + " 成功。当前维护的玩家列表：" + ScoreboardUtil.getUpdatePlayersToString());
                 } else {
                     sender.sendMessage("参数错误，请检查参数！[在线玩家名]");
                     return false;
