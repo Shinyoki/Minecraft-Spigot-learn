@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd">
+<mapper namespace="com.senko.pluginwithdatabase.mapper.PlayerMapper">
+
+    <select id="selectOneByName" resultType="com.senko.pluginwithdatabase.entity.PlayerPO">
+        SELECT *
+        FROM player
+        WHERE name = #{name}
+        LIMIT 1
+    </select>
+
+</mapper>

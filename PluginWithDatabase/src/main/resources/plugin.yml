@@ -1,0 +1,9 @@
+name: PluginWithDatabase
+version: '${project.version}'
+main: com.senko.pluginwithdatabase.PluginWithDatabase
+api-version: 1.18
+authors: [ senko ]
+description: 了解在插件开发中调用数据库
+commands:
+  db:
+    description: 数据库操作
