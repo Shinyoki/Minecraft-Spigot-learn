@@ -1,0 +1,11 @@
+senko:
+  #数据源
+  datasource:
+    #驱动：默认为mysql8
+    driver: com.mysql.cj.jdbc.Driver
+    #连接
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
+    #数据库用户名
+    username: root
+    #数据库密码
+    password: root
