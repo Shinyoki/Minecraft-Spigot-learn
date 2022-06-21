@@ -5,5 +5,10 @@ api-version: 1.18
 authors: [ senko ]
 description: 了解在插件开发中调用数据库
 commands:
-  db:
+  db-mybatis:
     description: 数据库操作
+    usage: "==========§6Db-Mybatis§f==========\n
+    /db-mybatis query §6<playerName>§f\n
+    /db-mybatis insert §6<playerName>§f\n
+    /db-mybatis update §6<playerName> <money>§f\n
+    /db-mybatis delete §6<playerName>§f\n"

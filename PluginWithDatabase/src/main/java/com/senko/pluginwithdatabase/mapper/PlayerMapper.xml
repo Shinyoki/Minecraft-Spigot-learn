@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd">
 <mapper namespace="com.senko.pluginwithdatabase.mapper.PlayerMapper">
 
+    <!--    查-->
     <select id="selectOneByName" resultType="com.senko.pluginwithdatabase.entity.PlayerPO">
         SELECT *
         FROM player
@@ -9,4 +10,23 @@
         LIMIT 1
     </select>
 
+    <!--    增-->
+    <insert id="insertPlayer"
+            parameterType="com.senko.pluginwithdatabase.entity.PlayerPO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into player(name, uuid) values(#{name}, #{uuid})
+    </insert>
+
+    <!--    改-->
+    <update id="updatePlayerById">
+        UPDATE player SET uuid = #{uuid}, money = #{money}
+        WHERE name = #{name}
+    </update>
+
+    <!--    删-->
+    <delete id="deletePlayer">
+        DELETE FROM player
+        WHERE name = #{name}
+    </delete>
 </mapper>

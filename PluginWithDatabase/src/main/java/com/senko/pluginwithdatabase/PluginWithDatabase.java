@@ -17,14 +17,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public final class PluginWithDatabase extends JavaPlugin {
+    //数据库会话工厂
     private static SqlSessionFactory sqlSessionFactory;
 
+    //插件单例
     private static PluginWithDatabase instance;
 
     public static PluginWithDatabase getInstance() {
         return instance;
     }
 
+    /**
+     * sqlSessionFactory可以用作为单例模式
+     *
+     * sqlSession不可以用单例模式，只能每次需要数据库操作时创建，完成后关闭，对于有些数据库，可能还需要手动commit提交。
+     * @return  sqlSessionFactory
+     */
     public static SqlSessionFactory getSqlSessionFactory() {
         if (Objects.isNull(sqlSessionFactory)) {
             synchronized (PluginWithDatabase.class) {
@@ -39,19 +47,22 @@ public final class PluginWithDatabase extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
-            Bukkit.broadcastMessage(plugin.getName());
-        }
+        //插件单例
         instance = this;
+        //初始化数据库会话工厂
         initSqlSessionFactory();
-        getCommand("db").setExecutor(new DbCommand());
+        //注册命令
+        getCommand("db-mybatis").setExecutor(new DbCommand());
     }
 
-    @Override
-    public void onDisable() {
 
-    }
-
+    /**
+     * 初始化数据库会话工厂
+     *
+     * 第一步：从config.yml中读取配置
+     * 第二部：校验参数
+     * 第三步：创建数据库会话工厂
+     */
     private void initSqlSessionFactory() {
         this.saveDefaultConfig();                               //本地配置文件不存在，则生成默认配置文件，如果存在，就啥也不干
         this.reloadConfig();                                    //重新从本地配置文件读取配置
@@ -86,6 +97,13 @@ public final class PluginWithDatabase extends JavaPlugin {
 
     /**
      * 初始化SqlSessionFactory
+     *
+     * 第一步：拼接数据库 链接
+     * 第二步：指明数据库版本（八版本带cj，五版本及以下不带cj）
+     * 第三步：创建Mybatis的数据源（可以搜一下 池化思想）
+     * 第四步：创建Mybatis的环境
+     * 第五步：创建Mybatis的配置 并 指定Mapper类
+     * 第六步：创建SqlSessionFactory
      * @param mySqlVersion  mysql版本 {@link MySqlVersion}
      * @param host          IP地址
      * @param port          端口
@@ -96,16 +114,18 @@ public final class PluginWithDatabase extends JavaPlugin {
     private void initSqlSessionFactory(MySqlVersion mySqlVersion, String host, int port, String database, String dbUser, String dbPassword) {
         //数据源配置
         String dbUrl = new StringBuilder("jdbc:mysql://").append(host).append(":").append(port).append("/").append(database).append("?useUnicode=true&characterEncoding=utf8&useSSL=false").toString();
+        //指定数据库版本
         String dbDriver = mySqlVersion.equals(MySqlVersion.MySql5) ? "com.mysql.jdbc.Driver" : "com.mysql.cj.jdbc.Driver";
         //创建数据源
         PooledDataSource dataSource = new PooledDataSource(dbDriver, dbUrl, dbUser, dbPassword);
-        //配置Mybatis
+        //配置Mybatis 环境(唯一标识名、事务实现、数据源)
         Environment mybatisEnv = new Environment("development", new JdbcTransactionFactory(), dataSource);
+        //配置Mybatis
         Configuration mybatisConfig = new Configuration(mybatisEnv);
         //添加Mappers
         mybatisConfig.getMapperRegistry().addMapper(PlayerMapper.class);
-        //添加Mappers.xml
 
+        //创建SqlSessionFactory
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(mybatisConfig);
     }
 
