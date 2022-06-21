@@ -1,0 +1,14 @@
+name: EasySqlTutorial
+version: '${project.version}'
+main: com.senko.easysqltutorial.EasySqlTutorial
+api-version: 1.18
+authors: [ senko ]
+description: 上手了解EasySql工具的简单应用
+commands:
+  db-easy-sql:
+    description: 了解EasySql工具的简单应用
+    usage: "==========§6Db-Easy-Sql§f==========\n
+    /db-easy-sql query §6<playerName>§f\n
+    /db-easy-sql insert §6<playerName>§f\n
+    /db-easy-sql update §6<playerName> <money>§f\n
+    /db-easy-sql delete §6<playerName>§f\n"
