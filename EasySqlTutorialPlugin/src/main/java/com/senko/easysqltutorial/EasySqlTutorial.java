@@ -39,8 +39,10 @@ public final class EasySqlTutorial extends JavaPlugin {
         getLogger().info("关闭插件中。。。。");
         //关闭数据源中的连接池
         if (Objects.nonNull(sqlManager)) {
-            ((HikariDataSource) sqlManager.getDataSource()).close();
-            getLogger().info("正在关闭数据源中的连接池");
+            // 使用由EasySQL提供的静态方法直接关闭数据管理器。
+            EasySQL.shutdownManager(sqlManager); 
+            // ((HikariDataSource) sqlManager.getDataSource()).close();
+            // getLogger().info("正在关闭数据源中的连接池");
         }
     }
 
