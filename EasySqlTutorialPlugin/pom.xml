@@ -69,28 +69,15 @@
 <!--        EasySql Beecp-->
         <dependency>
             <groupId>cc.carm.lib</groupId>
-            <artifactId>easysql-beecp</artifactId>
+            <artifactId>easysql-hikaricp</artifactId>
             <version>0.4.0</version>
         </dependency>
 
-        <!--        EasySql Api-->
-        <dependency>
-            <groupId>cc.carm.lib</groupId>
-            <artifactId>easysql-api</artifactId>
-            <version>0.4.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!--        Mysql Driver-->
+<!--        mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
+            <version>8.0.27</version>
             <scope>provided</scope>
         </dependency>
 

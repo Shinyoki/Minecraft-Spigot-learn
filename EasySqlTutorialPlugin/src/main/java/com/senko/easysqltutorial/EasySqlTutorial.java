@@ -2,8 +2,8 @@ package com.senko.easysqltutorial;
 
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
-import cc.carm.lib.easysql.api.SQLQuery;
-import cc.carm.lib.easysql.api.action.query.PreparedQueryAction;
+import cc.carm.lib.easysql.api.action.query.QueryAction;
+import cc.carm.lib.easysql.hikari.HikariDataSource;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,9 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -24,21 +22,26 @@ public final class EasySqlTutorial extends JavaPlugin {
 
     private static EasySqlTutorial instance;
 
-    public static EasySqlTutorial getInstance() {
-        return instance;
-    }
 
     private static SQLManager sqlManager;
 
-    public static SQLManager getSQLManager() {
-        return sqlManager;
-    }
 
     @Override
     public void onEnable() {
         instance = this;
         initSQLManager();
         getCommand("db-easy-sql").setExecutor(this);
+    }
+
+    @Override
+    public void onDisable() {
+
+        getLogger().info("关闭插件中。。。。");
+        //关闭数据源中的连接池
+        if (Objects.nonNull(sqlManager)) {
+            ((HikariDataSource) sqlManager.getDataSource()).close();
+            getLogger().info("正在关闭数据源中的连接池");
+        }
     }
 
     /**
@@ -68,14 +71,17 @@ public final class EasySqlTutorial extends JavaPlugin {
 
         //检查并捕获
         try {
+
             if (!sqlManager.getConnection().isValid(5)) {
                 getLogger().warning("[EasySQLTutorial] 数据库连接超时!");
             }
         } catch (SQLException e) {
             getLogger().severe("[EasySQLTutorial] 数据库连接失败，将关闭插件!");
+            getLogger().warning("错误:" + e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -107,7 +113,7 @@ public final class EasySqlTutorial extends JavaPlugin {
     private boolean executeQuery(CommandSender sender, String[] args) {
         if (args.length >= 2) {
             //得到查询构建器
-            PreparedQueryAction queryAction = sqlManager.createQuery()
+            QueryAction queryAction = sqlManager.createQuery()
                     //指明需要操作的table表
                     .inTable("player")
                     //指明需要操作的column字段
@@ -120,7 +126,8 @@ public final class EasySqlTutorial extends JavaPlugin {
                 //通过query对象执行里面的查询sql
                 queryAction.executeAsync(successQuery -> {
                     //success回调，此时已经回到主线程，可以放心调用Spigot Api
-                    sender.sendMessage("执行花费时间: " + successQuery.getExecuteTime());
+                    sender.sendMessage("查询创建的时间: " + successQuery.getExecuteTime(TimeUnit.MILLISECONDS));
+                    sender.sendMessage("当前时间: " + System.currentTimeMillis());
 
                     //输出结果
                     ResultSet resultSet = successQuery.getResultSet();
