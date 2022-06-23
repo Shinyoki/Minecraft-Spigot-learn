@@ -16,19 +16,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public final class EasySqlTutorial extends JavaPlugin {
-
-    private static EasySqlTutorial instance;
-
 
     private static SQLManager sqlManager;
 
 
     @Override
     public void onEnable() {
-        instance = this;
         initSQLManager();
         getCommand("db-easy-sql").setExecutor(this);
     }
@@ -40,9 +37,7 @@ public final class EasySqlTutorial extends JavaPlugin {
         //关闭数据源中的连接池
         if (Objects.nonNull(sqlManager)) {
             // 使用由EasySQL提供的静态方法直接关闭数据管理器。
-            EasySQL.shutdownManager(sqlManager); 
-            // ((HikariDataSource) sqlManager.getDataSource()).close();
-            // getLogger().info("正在关闭数据源中的连接池");
+            EasySQL.shutdownManager(sqlManager);
         }
     }
 
@@ -114,6 +109,7 @@ public final class EasySqlTutorial extends JavaPlugin {
 
     private boolean executeQuery(CommandSender sender, String[] args) {
         if (args.length >= 2) {
+            sender.sendMessage("查询前线程：" + Thread.currentThread().getName());
             //得到查询构建器
             QueryAction queryAction = sqlManager.createQuery()
                     //指明需要操作的table表
@@ -124,29 +120,32 @@ public final class EasySqlTutorial extends JavaPlugin {
                     .addCondition("name", args[1])
                     //构建查询
                     .build();
-            try {
-                //通过query对象执行里面的查询sql
-                queryAction.executeAsync(successQuery -> {
-                    //success回调，此时已经回到主线程，可以放心调用Spigot Api
-                    sender.sendMessage("查询创建的时间: " + successQuery.getExecuteTime(TimeUnit.MILLISECONDS));
-                    sender.sendMessage("当前时间: " + System.currentTimeMillis());
 
-                    //输出结果
-                    ResultSet resultSet = successQuery.getResultSet();
-                    while (resultSet.next()) {
-                        sender.sendMessage("id: " + resultSet.getInt("id"));
-                        sender.sendMessage("name: " + resultSet.getString("name"));
-                        sender.sendMessage("uuid: " + resultSet.getString("uuid"));
-                        sender.sendMessage("money: " + resultSet.getInt("money"));
-                    }
+            //通过query对象执行里面的查询sql
+            queryAction.executeAsync(successQuery -> {
+                ResultSet resultSet1 = successQuery.getResultSet();
+                //保存resultSet到
+                ConcurrentHashMap<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
+                if (resultSet1.next()) {
+                    concurrentHashMap.put("id", resultSet1.getInt("id"));
+                    concurrentHashMap.put("name", resultSet1.getString("name"));
+                    concurrentHashMap.put("uuid", resultSet1.getString("uuid"));
+                    concurrentHashMap.put("money", resultSet1.getInt("money"));
+                }
 
-                    //resultSet可以一直不管，最后GC会自动回收
-                    resultSet.close();
+                Bukkit.getScheduler().runTask(this, () -> {
+                    sender.sendMessage("当前线程：" + Thread.currentThread().getName());
+                    sender.sendMessage("查询成功！");
+                    sender.sendMessage("当前线程：" + Thread.currentThread().getName());
+                    concurrentHashMap.forEach((key, value) -> {
+                        sender.sendMessage(key + ":" + value);
+                    });
+                    sender.sendMessage("查询结束！");
+
                 });
+            });
 
-            } catch (Exception e) {
-                sender.sendMessage("查询失败");
-            }
+
             return true;
         }
         return true;
@@ -189,7 +188,7 @@ public final class EasySqlTutorial extends JavaPlugin {
                 LinkedHashMap<String, Object> infoMap = new LinkedHashMap<>();
                 infoMap.put("name", player.getName());
                 infoMap.put("uuid", player.getUniqueId());
-                infoMap.put("money",Integer.parseInt(args[2]));
+                infoMap.put("money", Integer.parseInt(args[2]));
 
                 sqlManager.createUpdate("player")
                         .setColumnValues(infoMap)                       //实现字段映射与数据

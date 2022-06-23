@@ -54,6 +54,14 @@
     </build>
 
     <repositories>
+
+        <repository>
+            <!--采用github的repo分支依赖，实时更新。 (推荐)-->
+            <id>EasySQL</id>
+            <name>GitHub Branch Repository</name>
+            <url>https://github.com/CarmJos/EasySQL/blob/repo/</url>
+        </repository>
+
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -66,11 +74,11 @@
 
     <dependencies>
 
-<!--        EasySql Beecp-->
+        <!--        EasySql hikaricp-->
         <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>easysql-hikaricp</artifactId>
-            <version>0.4.0</version>
+            <version>0.4.1</version>
         </dependency>
 
 <!--        mysql驱动-->
