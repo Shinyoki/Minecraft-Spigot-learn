@@ -13,10 +13,12 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 
 /**
+ * <pre>
  * 事件监听器
  *
  * 当玩家在潜行时击打小羊，小样就会垂直起飞、变换羊毛色彩、并给玩家一个音效提示.
  * 确实是在模仿Hyoixel，但是我这没有给羊监听摔落伤害事件（
+ * </pre>
  * @author senko
  * @date 2022/7/2 19:54
  */
@@ -27,7 +29,7 @@ public class OnPlayerSneakingHitSheepEventListener implements Listener {
         Player player = event.getPlayer();
         Sheep sheep = event.getSheep();
         Random random = new Random();
-        int next = random.nextInt(DyeColor.values().length + 1);    // [0, length + 1)  左闭右开的int
+        int next = random.nextInt(DyeColor.values().length);    // [0, length)  左闭右开的int
 
         //随机颜色
         sheep.setColor(DyeColor.values()[next]);

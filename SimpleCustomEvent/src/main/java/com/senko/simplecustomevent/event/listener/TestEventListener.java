@@ -15,8 +15,8 @@ public class TestEventListener implements Listener {
 
 
     /**
-     * EventPriority的优先级越高，改Handler越往后处理，
-     * 因此EventPriority.LOWEST标注的最先执行。
+     * EventPriority的优先级越高，对应的Handler就越往后才处理，
+     * 因此EventPriority.LOWEST标注的Handler是最先执行的。
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerSneakEvent(PlayerToggleSneakEvent event) {
@@ -49,6 +49,10 @@ public class TestEventListener implements Listener {
         }
     }
 
+    /**
+     * 如果正在监听的event对象被前面的handler改为了cancel状态，
+     * 则这里的handler方法不会被执行。
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneakEvent4(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {

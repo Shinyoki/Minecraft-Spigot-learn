@@ -1,0 +1,6 @@
+name: SimpleCustomEventPlugin
+version: '${project.version}'
+main: com.senko.simplecustomevent.SimpleCustomEventPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 自定义事件

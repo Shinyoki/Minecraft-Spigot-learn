@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
+ * <pre>
  * 玩家蹲下时伤害小样事件 触发器
  *
  * 如何知道 玩家在蹲下来的时候它是否有在击打某只羊？
@@ -23,6 +24,7 @@ import java.util.UUID;
  * 通过中间值来暂存 “状态” 信息，然后在需要的时候进行判断。
  * 此时要格外注意，如果是用容器这类的数据结构来存放这些中间值，就必须考虑在什么时候去清除被存放的元素，
  * 否则会存在内存泄漏的风险。
+ * </pre>
  * @author senko
  * @date 2022/7/2 19:06
  */
@@ -35,6 +37,9 @@ public class PlayerSneakingHitSheepEventEmitter implements Listener {
      */
     private Set<UUID> playerSet = new HashSet<>();
 
+    /**
+     * 监听链第一步：玩家是否正在蹲着
+     */
     @EventHandler
     public void onPlayerSneakingEvent(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
@@ -46,6 +51,9 @@ public class PlayerSneakingHitSheepEventEmitter implements Listener {
         }
     }
 
+    /**
+     * 监听链第二步：玩家有没有在蹲着的情况下伤害小羊
+     */
     @EventHandler
     public void onPlayerDamageSheepEvent(EntityDamageByEntityEvent event) {
         //以前好像遇到过从事件中获取的对象为空的情况，于是我就先空判断了
@@ -57,18 +65,18 @@ public class PlayerSneakingHitSheepEventEmitter implements Listener {
                 damager instanceof Player &&
                 entity instanceof Sheep) {
 
-            //取消事件，不造成伤害
-            event.setCancelled(true);
-
             //通过中间值验证玩家是否在蹲着
             if (playerSet.contains(damager.getUniqueId())) {
+
+                //取消事件，不对小羊造成伤害
+                event.setCancelled(true);
 
                 //触发我们的自定义事件，并清空中间状态信息
                 Bukkit.getPluginManager().callEvent(new PlayerSneakingHitSheepEvent((Player) damager, (Sheep) entity));
                 /**
                  * 一般情况下，都是在监听链的最后才remove | reset状态值，
                  * 我这里需要玩家在蹲着的时候能重复触发，因此选择在非蹲起的情况下remove | reset状态值。
-                 * 还是那句话，
+                 * 还是那句话，小心内存泄漏！
                  */
                 //playerSet.remove(damager.getUniqueId());
             }
