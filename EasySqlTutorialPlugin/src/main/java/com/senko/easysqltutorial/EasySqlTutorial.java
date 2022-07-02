@@ -10,6 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.ResultSet;
@@ -26,6 +29,10 @@ public final class EasySqlTutorial extends JavaPlugin {
     public void onEnable() {
         initSQLManager();
         getCommand("db-easy-sql").setExecutor(this);
+
+
+        //测试，请忽略
+        Bukkit.getPluginManager().registerEvents(new TestEvent(),this);
     }
 
     @Override
@@ -291,5 +298,12 @@ public final class EasySqlTutorial extends JavaPlugin {
             return true;
         }
         return false;
+    }
+}
+
+class TestEvent implements Listener {
+    @EventHandler
+    public void onPlayerToggleSneakEvent(PlayerToggleSneakEvent event) {
+
     }
 }
