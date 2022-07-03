@@ -68,6 +68,9 @@ public class PlayerSneakingHitSheepEvent extends Event implements Cancellable {
         return isCancelled;
     }
 
+    public boolean nonCancelled() {
+        return isCancelled == false;
+    }
     @Override
     public void setCancelled(boolean cancel) {
         this.isCancelled = cancel;

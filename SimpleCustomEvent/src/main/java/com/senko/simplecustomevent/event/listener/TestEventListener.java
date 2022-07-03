@@ -13,7 +13,6 @@ import org.bukkit.plugin.RegisteredListener;
  */
 public class TestEventListener implements Listener {
 
-
     /**
      * EventPriority的优先级越高，对应的Handler就越往后才处理，
      * 因此EventPriority.LOWEST标注的Handler是最先执行的。
@@ -21,14 +20,14 @@ public class TestEventListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerSneakEvent(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
-            event.getPlayer().sendMessage("这是优先级最高的事件监听，将会在LOWEST优先级的监听器执行之后出现！");
+            event.getPlayer().sendMessage("这是优先级NORMAL的事件监听，将会在LOWEST优先级的监听器执行之后出现！");
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerSneakEvent2(PlayerToggleSneakEvent event) {
         if (event.isSneaking()) {
-            event.getPlayer().sendMessage("这是优先级最低的事件监听，将会最先出现！");
+            event.getPlayer().sendMessage("这是优先级LOWEST的事件监听，将会最先出现！");
         }
     }
 

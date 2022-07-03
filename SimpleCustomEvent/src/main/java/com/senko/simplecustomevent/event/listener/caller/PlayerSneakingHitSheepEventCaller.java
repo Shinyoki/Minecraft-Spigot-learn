@@ -1,4 +1,4 @@
-package com.senko.simplecustomevent.event.emitter;
+package com.senko.simplecustomevent.event.listener.caller;
 
 import com.senko.simplecustomevent.event.PlayerSneakingHitSheepEvent;
 import org.bukkit.Bukkit;
@@ -8,6 +8,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.HashSet;
@@ -28,12 +29,12 @@ import java.util.UUID;
  * @author senko
  * @date 2022/7/2 19:06
  */
-public class PlayerSneakingHitSheepEventEmitter implements Listener {
+public class PlayerSneakingHitSheepEventCaller implements Listener {
 
     /**
      * 正在蹲着的玩家
      *
-     * 状态信息
+     * 状态信息（标记容器）
      */
     private Set<UUID> playerSet = new HashSet<>();
 
@@ -81,5 +82,11 @@ public class PlayerSneakingHitSheepEventEmitter implements Listener {
                 //playerSet.remove(damager.getUniqueId());
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerLogoutEvent(PlayerQuitEvent event) {
+        //玩家退出时也删除标记
+        playerSet.remove(event.getPlayer().getUniqueId());
     }
 }
