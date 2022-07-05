@@ -1,0 +1,11 @@
+name: AttributePlugin
+version: '${project.version}'
+main: com.senko.attributeplugin.AttributePlugin
+api-version: 1.18
+authors: [ senko ]
+description: 为物品添加属性加成
+commands:
+  boom:
+    usage: "============AttributePlugin============\n
+    /boom add \n
+    /boom hide \n"
