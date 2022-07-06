@@ -1,0 +1,13 @@
+name: PersistentPlugin
+version: '${project.version}'
+main: com.senko.persistentplugin.PersistentPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 了解数据持久化的另一种方式
+commands:
+  meta:
+    usage: "=============PersistentPlugin=============\n
+    /meta add 向手中物品添加数据\n
+    /meta get 获取手中物品的数据\n
+    /meta mark 向目标中的方块添加自定义数据\n
+    /meta query 获取目标方块中的自定义数据\n"
