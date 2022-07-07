@@ -1,0 +1,10 @@
+name: ConversationPlugin
+version: '${project.version}'
+main: com.senko.conversationplugin.ConversationPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 上手了解ConversationAPI
+commands:
+  start:
+    usage: /<command>
+    description: 开始一次问答会话
