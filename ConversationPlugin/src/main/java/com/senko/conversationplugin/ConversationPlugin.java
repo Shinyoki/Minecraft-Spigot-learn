@@ -1,14 +1,9 @@
 package com.senko.conversationplugin;
 
-import com.senko.conversationplugin.conversation.MyQueryFactory;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
+import com.senko.conversationplugin.conversation.MyDefaultConversationFactory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.conversations.*;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ConversationPlugin extends JavaPlugin {
@@ -23,7 +18,6 @@ public final class ConversationPlugin extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         getCommand("start").setExecutor(this);
-
     }
 
     @Override
@@ -31,7 +25,7 @@ public final class ConversationPlugin extends JavaPlugin {
         if (sender instanceof Player) {
 
             Player me = (Player) sender;
-            MyQueryFactory.build().start(me);
+            MyDefaultConversationFactory.start(me);
             return true;
         }
         sender.sendMessage("只有玩家才嫩使用该指令！");

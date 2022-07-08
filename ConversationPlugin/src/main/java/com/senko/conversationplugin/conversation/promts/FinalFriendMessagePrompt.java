@@ -33,8 +33,8 @@ public class FinalFriendMessagePrompt extends MessagePrompt {
 
         //获取问题的回复者
         Player forWhom = (Player) context.getForWhom();
-        forWhom.playSound(forWhom.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 1);
+        forWhom.playSound(forWhom.getLocation(), Sound.BLOCK_ANVIL_BREAK, 1, 1);
 
-        return "你已经生成了 " + number + "只" + animal + "给" + targetPlayer.getName() + "！";
+        return "成功生成了 " + number + "只" + animal + "给" + targetPlayer.getName() + "！";
     }
 }

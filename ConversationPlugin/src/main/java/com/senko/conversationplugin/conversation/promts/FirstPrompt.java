@@ -16,9 +16,9 @@ public class FirstPrompt extends FixedSetPrompt {
      * 指出需要的 答案
      */
     public FirstPrompt() {
+        //传入Fixed固定的答案
         super(EntityType.COW.toString(), EntityType.PIG.toString(), EntityType.CAT.toString(), "NONE");
     }
-
 
 
     /**

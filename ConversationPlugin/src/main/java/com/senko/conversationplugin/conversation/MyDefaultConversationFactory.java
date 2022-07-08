@@ -4,7 +4,6 @@ import com.senko.conversationplugin.ConversationPlugin;
 import com.senko.conversationplugin.conversation.prefix.MyPromptPrefix;
 import com.senko.conversationplugin.conversation.promts.FirstPrompt;
 import org.bukkit.conversations.Conversable;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,7 @@ import org.bukkit.entity.Player;
  * @author senko
  * @date 2022/7/7 9:49
  */
-public class MyQueryFactory {
-    private static MyQueryFactory instance;
+public class MyDefaultConversationFactory {
 
     /**
      * 问答会话 工厂
@@ -25,10 +23,10 @@ public class MyQueryFactory {
     /**
      * 初始化问答会话工厂
      */
-    private MyQueryFactory() {
+    static {
         conversationFactory = new ConversationFactory(ConversationPlugin.getPlugin())
                 //factory对象的playerOnlyMessage属性如果非空， 则会阻止控制台发起Conversation会话
-                .thatExcludesNonPlayersWithMessage("控制台你这次别参与了捏~")
+                //.thatExcludesNonPlayersWithMessage("控制台你这次别参与了捏~")
                 //会话途中退出 用的语句
                 .withEscapeSequence("quit")
                 //第一次显示给（玩家|控制台）的问题（Prompt的翻译是提示，我感觉叫成问题更为合适）
@@ -44,36 +42,19 @@ public class MyQueryFactory {
     }
 
     /**
-     * 获取单例
+     * 获取工厂单例
      */
-    public static MyQueryFactory build() {
-        if (instance == null) {
-            instance = new MyQueryFactory();
-        }
-        return instance;
+    public static ConversationFactory get() {
+        return conversationFactory;
     }
 
     /**
      * 给玩家开启一次问答会话
-     * @param player    玩家
+     * @param playerOrConsole    玩家
      */
-    public void start(Player player) {
-        if (instance == null) {
-            instance = new MyQueryFactory();
-        }
-        //Conversation对象创建后就直接使用，不需要实例化后再维护abandoned。服务端会根据超时时间自动关闭会话。
-        conversationFactory.buildConversation(player).begin();
+    public static void start(Conversable playerOrConsole) {
+        //Conversation对象创建后就直接使用，不需要实例化后再维护或调用它abandoned方法关闭本地问答会话。服务端会根据超时时间自动关闭会话。
+        conversationFactory.buildConversation(playerOrConsole).begin();
     }
-
-/**
- * 如果没有给 factor添加这一条配置      .thatExcludesNonPlayersWithMessage("控制台你这次别参与了捏~")，
- * 这时候控制台也可以参与问答会话
- */
-//    public void start(Conversable playerOrConsole) {
-//        if (instance == null) {
-//            instance = new MyQueryFactory();
-//        }
-//        conversationFactory.buildConversation(playerOrConsole).begin();
-//    }
 
 }
