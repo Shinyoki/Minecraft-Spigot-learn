@@ -2,6 +2,7 @@ package com.senko.conversationplugin.conversation.prefix;
 
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.NullConversationPrefix;
 
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * @author senko
  * @date 2022/7/7 10:39
  */
-public class MyPromptPrefix extends NullConversationPrefix {
+public class MyPromptPrefix implements ConversationPrefix {
     @Override
     public String getPrefix(ConversationContext context) {
         //从上下文中获取信息集合
