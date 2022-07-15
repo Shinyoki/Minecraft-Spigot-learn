@@ -1,0 +1,6 @@
+name: BlockPlugin
+version: '${project.version}'
+main: com.senko.blockplugin.BlockPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 了解方块在插件中的体现
