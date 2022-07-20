@@ -1,5 +1,6 @@
 package com.senko.blockplugin.examples.block;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -48,12 +49,20 @@ public class BlockExample {
         int blockLightLevel = block.getLightLevel();
         player.sendMessage("方块的光照等级：" + blockLightLevel);
 
-        //block.getChunk();     // 获取方块所在的Chunk，Chunk API有关，本期视频不细讲
+        //block.getChunk();                                     // 获取方块所在的Chunk，Chunk API有关，本期视频不细讲
 
         byte lightLevel = block.getLightLevel();
         player.sendMessage("方块的光照等级：" + lightLevel);
-
         //...还有更多API，自己发掘吧
+
+        // 修改方块的生态群戏
+        block.setBiome(Biome.BADLANDS);
+
+        // 生成掉落中的方块
+        Location blockLocation = block.getLocation();
+        Location clonedLocation = blockLocation.clone();         // 获取Location位置的副本，防止修改location会同步影响到原方块
+        clonedLocation.add(0, 10, 0);                   // y轴增加10格
+        block.getWorld().spawnFallingBlock(clonedLocation, Bukkit.createBlockData(Material.TNT));
 
         /**
          * 真正负责存储方块内部数据的两个类

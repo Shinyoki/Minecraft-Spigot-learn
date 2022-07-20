@@ -9,6 +9,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Chest;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -35,16 +36,20 @@ public class BlockDataExample {
 
         // TIP: 获取到的BlockData和Location一样，都是对象属性的内存地址，如果要进行修改，请尽量先clone()出副本再针对副本进行修改
         BlockData blockData = block.getBlockData();
-        String stringData = blockData.getAsString();                                            // blockData的String形式
 
         // 比如这里你点击了一个箱子
         if (block.getType() == Material.CHEST) {
 
             Chest chestData = ((Chest) blockData);                                              // 是箱子，就转换成BlockData的子类Chest
-            player.sendMessage("原先箱子的方向是：" + chestData.getFacing().toString());            // 箱子BlockData所特有的信息
-            player.sendMessage("箱子是否含水：" + (chestData.isWaterlogged() ? "是" : "否"));
-            player.sendMessage("箱子的类型：" + chestData.getType().name());
+            player.sendMessage("点击箱子的方向是：" + chestData.getFacing().toString());            // 箱子BlockData所特有的信息
+            player.sendMessage("点击箱子是否含水：" + (chestData.isWaterlogged() ? "是" : "否"));
+            player.sendMessage("点击箱子的类型：" + chestData.getType().name());
+            player.sendMessage("点击箱子的完整data：" + blockData.getAsString());                   // blockData的String形式
             //chestData....
+
+
+//            BlockData blockData1 = Bukkit.createBlockData(blockData.getAsString());           // 还有其他方式可以用来（获取）BlockData
+//            BlockData blockData1 = Bukkit.createBlockData(Material.CHEST);
 
             changeAnotherBlock(block, chestData);                                               // 利用BlockData去修改其他的方块
 

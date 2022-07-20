@@ -15,25 +15,8 @@ import org.bukkit.entity.Player;
 public class ApplyPhysicsExample {
     public void doSetBlockData(Block clickedBlock, Player player) {
 
-        // 如果是钻石块，就把钻石卡变成箱子
-        if (clickedBlock.getType() == Material.DIAMOND_BLOCK) {
-
-            /**
-             * 通过{@link Bukkit#createBlockData(Material)}
-             * 创建一个相应类型，且其他信息都是默认值的BlockData。
-             *
-             * 还有个Sting类型的创建方法，{@link Bukkit#createBlockData(String)}
-             * 这里接收的String实参，就是{@link BlockData#getAsString()}得到的字符串。
-             */
-            BlockData blockData = Bukkit.createBlockData(Material.CHEST);
-            player.sendMessage("通过Material创建的BlockData: " + blockData.getAsString());
-
-            // 修改被点击的钻石块为箱子
-            clickedBlock.setBlockData(blockData);
-
-        }
-
-        else if (clickedBlock.getType() == Material.CHEST){
+        // 如果是箱子就将箱子删除
+        if (clickedBlock.getType() == Material.CHEST){
 
             BlockData airBlockData = Bukkit.createBlockData(Material.AIR);
             player.sendMessage("现在我要删除该箱子，且不会引发周围的方块更新！");
@@ -48,7 +31,7 @@ public class ApplyPhysicsExample {
              * {@link Block#setType(Material, boolean)} 也可以修改方块的类型，也可以设置是否触发方块更新。
              * 但是原有的方块状态BlockState和方块信息BlockData会被覆盖为默认的，和这里的Bukkit.createBlockData(Material.AIR)有点类似。
              */
-            clickedBlock.setBlockData(airBlockData, false);         // 关闭方块更新 的修改
+            clickedBlock.setBlockData(airBlockData, true);         // 关闭方块更新 的修改
 //            clickedBlock.setBlockData(airBlockData);                      // 默认启用方块更新 的修改
 
         }
