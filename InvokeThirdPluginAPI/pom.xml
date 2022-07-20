@@ -80,6 +80,9 @@
 <!--            因为服务端已经加载了Vault插件，相当于服务端中存在了Vault的代码，于是我们就不需要再把依赖打包到当前插件中了。-->
 <!--            对于其他的API依赖也是同样的道理。-->
             <scope>provided</scope>
+            <exclusions>
+
+            </exclusions>
         </dependency>
 
 <!--        Spigot API-->

@@ -1,17 +1,12 @@
 package com.senko.blockplugin;
 
 import com.senko.blockplugin.examples.block.BlockExample;
-import com.senko.blockplugin.examples.blockdata.AnotherBlockDataExample;
+import com.senko.blockplugin.examples.blockdata.ApplyPhysicsExample;
 import com.senko.blockplugin.examples.blockdata.BlockDataExample;
 import com.senko.blockplugin.examples.blockstate.BlockStateExample;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
-import org.bukkit.block.CommandBlock;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -20,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
-import java.util.Random;
 
 public final class BlockPlugin extends JavaPlugin implements Listener {
 
@@ -31,10 +25,13 @@ public final class BlockPlugin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onStickRightClick(PlayerInteractEvent event) {
+
         // 当玩家进行互动时，这个方法会被触发两次，因为是两只手都参与到了互动（
         if (event.getHand() == EquipmentSlot.HAND) {
+
             Block clickedBlock = event.getClickedBlock();
             ItemStack itemInMainHand = event.getPlayer().getInventory().getItemInMainHand();
+
             // 判断手里有没有物品
             if (Objects.isNull(itemInMainHand))
                 return;
@@ -46,22 +43,26 @@ public final class BlockPlugin extends JavaPlugin implements Listener {
 
                     String displayName = itemInMainHand.getItemMeta().getDisplayName();
                     switch (displayName) {
-                        case "获取并修改BlockData":
-                            // 演示BlockData的用法（序列化和反序列化）
-                            new BlockDataExample().doGetAndSetBlockData(clickedBlock, event.getPlayer());
-                            break;
-                        case "关于BlockData的注意事项":
-                            // 修改方块信息引发的 方块更新
-                            new AnotherBlockDataExample().doSetBlockData(clickedBlock, event.getPlayer());
-                            break;
-                        case "获取方块状态":
-                            new BlockStateExample().doGetBlockState(clickedBlock, event.getPlayer());
-                            break;
-                        case "改变方块生态":
+                        case "1":
+                            // Block
                             new BlockExample().doBlockAPI(clickedBlock, event.getPlayer());
                             break;
+                        case "2":
+                            // 获取并修改BlockData
+                            new BlockDataExample().doGetAndSetBlockData(clickedBlock, event.getPlayer());
+                            break;
+                        case "3":
+                            // 方块更新
+                            new ApplyPhysicsExample().doSetBlockData(clickedBlock, event.getPlayer());
+                            break;
+                        case "4":
+                            // BlockState为何物
+                            new BlockStateExample().doGetBlockState(clickedBlock, event.getPlayer());
+                            break;
                     }
+
                     event.getPlayer().sendMessage("boom");
+
                 }
             }
         }

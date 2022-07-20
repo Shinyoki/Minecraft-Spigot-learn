@@ -16,14 +16,17 @@ public class BlockExample {
 
     /**
      * {@link Block}的存在就跟{@link org.bukkit.inventory.ItemStack}类似，它不保存方块的内部信息，
-     * 真正的方块内部信息分别对应{@link Block#getState()}和{@link Block#getBlockData()}所得到的对象。
+     * 真正的方块内部信息分如箱子内容、告示牌内容则由{@link Block#getState()}所得到的对象存储。
+     * 正因为有这么多复杂多变的属性，我们不可能通过简单的方法去new出一个方块，
+     * 因此正常的做法是通过 事件系统或{@link org.bukkit.World#getBlockAt(Location)} 等方式
+     * 来“获取” 方块，而非 ”new“ 出方块。
      *
      * Block方块主要代表了在当前世界。当前坐标下这个方块的状态信息，
      * 比如方块是什么、光照等级是多少、生态群系是什么、它的坐标是什么，它所在的世界是什么等等
      *
-     * 正因为有这么多复杂多变的属性，我们不可能通过简单的方法去new出一个方块，
-     * 因此正常的做法是通过 事件系统或{@link org.bukkit.World#getBlockAt(Location)} 等方式
-     * 来“获取” 方块，而非 ”new“ 出方块。
+     * {@link org.bukkit.block.BlockState}里的内容看着好像和{@link Block}没什么不同，
+     * 但它的作用并不是表面的这些，而是转型成相应的子类，得到特殊方块的内部信息。比如它的子类箱子{@link org.bukkit.block.Chest}
+     * 命令方块{@link org.bukkit.block.CommandBlock}。
      */
     public void doBlockAPI(Block block, Player player) {
 
