@@ -4,19 +4,15 @@ main: com.senko.invokethirdpluginapi.InvokeThirdPluginAPI
 api-version: 1.18
 authors: [ senko ]
 description: 了解如何调用其他插件提供的API，在本期视频里，我用到的是VaultAPI，经济插件为EssentialX
-
 commands:
   senko:
     usage: "===========myDynamic===========\n
     /senko add <amount>     添加金钱\n
     /senko remove <amount>  减少金钱\n
     /senko get              查询金钱数量\n"
-
 # 声明必要的前置插件（服务端会检查有没有该插件正在运行，如果没有则不会启用当前插件）
 depend:
   - Vault
-
 # 可忽略的前置依赖 (这里即使我随便地写，当前插件都能被服务端正常启用)
 softdepend:
   - PlaceholderAPI
-  - XXXX

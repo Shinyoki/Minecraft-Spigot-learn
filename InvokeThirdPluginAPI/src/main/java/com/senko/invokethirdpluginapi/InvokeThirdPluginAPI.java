@@ -1,11 +1,16 @@
 package com.senko.invokethirdpluginapi;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,29 +19,48 @@ import java.util.Objects;
 /**
  * Vault API官方教程
  * https://github.com/MilkBowl/VaultAPI
- *
+ * <p>
  * 调用第三方插件API的步骤：
  * （一）: 给当前项目导入对应插件的jar包作为依赖
- *      这是为了能够在编写代码时能够正常调用第三方插件的API接口。
+ * 这是为了能够在编写代码时能够正常调用第三方插件的API接口。
  * （二）：在plugin.yml中声明 softdepend 或者 depend
- *      这里的depend就是所谓的“前置插件”。
- *      softdepend所声明的前置插件，仅仅是起到提示作用，如果服务端没有检测到对应的前置插件，也不会对当前的插件产生任何影响。
- *      depend所声明的前置插件，如果服务端没有检测到对应的前置插件，则会关闭当前插件。
+ * 这里的depend就是所谓的“前置插件”。
+ * softdepend所声明的前置插件，仅仅是起到提示作用，如果服务端没有检测到对应的前置插件，也不会对当前的插件产生任何影响。
+ * depend所声明的前置插件，如果服务端没有检测到对应的前置插件，则会关闭当前插件。
  * （三）：调用第三方插件API接口
- *      每个插件的API都不一样，得自行去相应的官网寻找教程，
- *      （又或者是自行阅读源码理解如何使用。
+ * 每个插件的API都不一样，得自行去相应的官网寻找教程，
+ * （又或者是自行阅读源码理解如何使用。
  * （三）：打包依赖
- *      就像是打包SpigotAPI依赖一样，
- *      SpigotAPI和我们要用到的第三方API插件都已经被服务端加载好了，
- *      等我们的插件被加载进服务器时，就可以直接调用第三方插件的API接口，
- *      因此我们无需将第三方插件的jar包一同打包进我们的插件中。
+ * 就像是打包SpigotAPI依赖一样，
+ * SpigotAPI和我们要用到的第三方API插件都已经被服务端加载好了，
+ * 等我们的插件被加载进服务器时，就可以直接调用第三方插件的API接口，
+ * 因此我们无需将第三方插件的jar包一同打包进我们的插件中。
  */
-public final class InvokeThirdPluginAPI extends JavaPlugin {
+public final class InvokeThirdPluginAPI extends JavaPlugin implements Listener {
+
+    /**
+     * 需要让PlaceholderAPI下载Vault & Player拓展
+     * /papi ecloud download Vault
+     * /papi ecloud download Player
+     * /papi reload
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerJoin(PlayerJoinEvent joinEvent) {
+
+        Player player = joinEvent.getPlayer();
+        // 设置占位符字符串
+        String rawMessage = "瞧！是拥有§4%vault_eco_balance%§f钱的大富豪§4%player_name%§f来了！";
+        // 替换占位符
+        String formattedMessage = PlaceholderAPI.setPlaceholders(player, rawMessage);
+        joinEvent.setJoinMessage(formattedMessage);
+
+    }
 
     /**
      * Vault API提供的经济服务接口
      */
     public static Economy econ = null;
+
 
     @Override
     public void onEnable() {
@@ -59,41 +83,55 @@ public final class InvokeThirdPluginAPI extends JavaPlugin {
             return;
         }
 
+        Bukkit.getPluginManager().registerEvents(this, this);
+
     }
 
     private boolean setupEconomy() {
+
         // 获取Economy服务（说简单点，就是看看有没有EssentialX等经济插件被加载了，如果有，VaultAPI就能够提供对应的经济服务）
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager()
                 .getRegistration(Economy.class);
         econ = rsp.getProvider();
         return Objects.nonNull(econ);
+
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
         if (!(sender instanceof Player)) {
             getLogger().info("只有玩家才能这么做");
             return true;
         }
 
+        boolean flag = false;
         Player player = (Player) sender;
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "add":
                     //   /senko add <金额>      添加金额到玩家的钱包
-                    return doAdd(player, args);
+                    flag = doAdd(player, args);
+                    break;
                 case "remove":
                     //   /senko remove <金额>   从玩家的钱包中移除金额
-                    return doRemove(player, args);
+                    flag = doRemove(player, args);
+                    break;
                 case "get":
                     //   /senko get             获取玩家的钱包金额
-                    return doGet(player, args);
+                    flag = doGet(player, args);
+                    break;
             }
         }
-        return false;
+        return flag;
+
     }
 
+    /**
+     * 涉及到很重要的操作，请务必加上日志
+     */
     private boolean doAdd(Player player, String... args) {
+
         if (args.length < 2) {
             player.sendMessage("你忘了在后面输入金额!");
             return false;
@@ -104,6 +142,7 @@ public final class InvokeThirdPluginAPI extends JavaPlugin {
 
             // Economy#depositePlayer(Player, int) 方法用于将金额添加到玩家的钱包中
             EconomyResponse response = econ.depositPlayer(player, amount);
+            getLogger().info("玩家" + player.getName() + "向自己添加了" + response.amount + "元");
 
             if (response.transactionSuccess()) {
                 // Economy#getBalance(Player) 方法用于获取玩家的钱包金额
@@ -117,9 +156,11 @@ public final class InvokeThirdPluginAPI extends JavaPlugin {
             player.sendMessage("你输入的金额不是数字!");
             return false;
         }
+
     }
 
     private boolean doRemove(Player player, String... args) {
+
         if (args.length < 2) {
             player.sendMessage("你忘了在后面输入金额!");
             return false;
@@ -130,6 +171,7 @@ public final class InvokeThirdPluginAPI extends JavaPlugin {
 
             // Economy#withdrawPlayer(String, int) 方法用于从玩家的钱包中移除金额
             EconomyResponse response = econ.withdrawPlayer(player, amount);
+            getLogger().info("玩家" + player.getName() + "从自己扣除了" + response.amount + "元");
 
             if (response.transactionSuccess()) {
                 player.sendMessage("你现在有" + econ.getBalance(player) + "元");
@@ -138,10 +180,12 @@ public final class InvokeThirdPluginAPI extends JavaPlugin {
                 player.sendMessage(response.errorMessage);
                 return false;
             }
+
         } catch (NumberFormatException e) {
             player.sendMessage("你输入的金额不是数字!");
             return false;
         }
+
     }
 
     private boolean doGet(Player player, String... args) {

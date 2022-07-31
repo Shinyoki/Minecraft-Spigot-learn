@@ -12,6 +12,7 @@ public final class FeatureTest extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         // Plugin startup logic
         getCommand("testL").setExecutor(this);
         Bukkit.getPluginManager().registerEvents(new OnEatEventListener(), this);

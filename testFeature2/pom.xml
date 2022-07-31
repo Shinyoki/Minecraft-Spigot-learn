@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.senko</groupId>
-    <artifactId>invokeThirdPluginAPI</artifactId>
+    <artifactId>testFeature2</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>InvokeThirdPluginAPI</name>
+    <name>TestFeature2</name>
 
-    <description>了解如何调用其他插件提供的API，在本期视频里，我用到的是VaultAPI，经济插件为EssentialX</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -62,51 +61,21 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-
-<!--        Vault API依赖的仓库地址-->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-<!--        PlaceholderAPI 依赖的仓库地址-->
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-
     </repositories>
 
     <dependencies>
-
-<!--        PlaceholderAPI-->
         <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.11.2</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
             <scope>provided</scope>
         </dependency>
 
-<!--        Vault API-->
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-<!--            scope作用于为provided时，maven不会把该依赖打包到插件jar文件中。-->
-<!--            因为服务端已经加载了Vault插件，相当于服务端中存在了Vault的代码，于是我们就不需要再把依赖打包到当前插件中了。-->
-<!--            对于其他的API依赖也是同样的道理。-->
-            <scope>provided</scope>
-            <exclusions>
-
-            </exclusions>
-        </dependency>
-
-<!--        Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <artifactId>spigot</artifactId>
             <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 </project>
