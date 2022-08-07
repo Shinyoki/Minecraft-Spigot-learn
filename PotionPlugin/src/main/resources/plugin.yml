@@ -1,0 +1,12 @@
+name: PotionPlugin
+version: '${project.version}'
+main: com.senko.potion.PotionPlugin
+api-version: 1.18
+authors: [ senko ]
+description: 了解自定义药水效果
+
+commands:
+  potion:
+    description: "附加药水效果"
+  get-potion:
+    description: "获取药水"
