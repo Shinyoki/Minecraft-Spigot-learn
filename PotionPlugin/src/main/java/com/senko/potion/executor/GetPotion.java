@@ -9,9 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * @author senko
@@ -28,10 +30,12 @@ public class GetPotion implements CommandExecutor {
             if (-1 != player.getInventory().firstEmpty()) {
                 PlayerInventory inventory = player.getInventory();
 
-                ItemStack potionStack = new ItemStack(Material.POTION);
-                PotionMeta potionMeta = (PotionMeta) potionStack.getItemMeta();
-                addAllPotionEffects(potionMeta);
-                potionMeta.setColor(Color.fromRGB(225,6,2));
+                ItemStack potionStack = new ItemStack(Material.POTION);             // 创建物品槽，用于存放药水
+
+                PotionMeta potionMeta = (PotionMeta) potionStack.getItemMeta();     // 得到药水的meta
+                addAllPotionEffects(potionMeta);                                    // 添加所有药水效果
+                potionMeta.setColor(Color.fromRGB(178,176,170));        // 修改药水的颜色
+//                potionMeta.setColor(Color.GREEN);        // 修改药水的颜色
 
                 potionStack.setItemMeta(potionMeta);
                 inventory.addItem(potionStack);
@@ -47,10 +51,14 @@ public class GetPotion implements CommandExecutor {
     }
 
     private void addAllPotionEffects(PotionMeta potionMeta) {
-        Arrays.stream(PotionEffectType.values())
+        Stream.of(PotionEffectType.values())
+                // 遍历Type
                 .forEach(potionEffectType -> {
+                    // 给meta添加一个药水效果
                     potionMeta.addCustomEffect(
-                            potionEffectType.createEffect(20 * 10, 0),
+                            // 10秒、一级、粒子效果更明显，ui界面带有图标的药水效果
+                            new PotionEffect(potionEffectType, 20 * 10, 0, false, true, true),
+                            // 如果玩家存在该药水效果，则强制替换
                             true
                     );
                 });
