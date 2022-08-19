@@ -1,0 +1,9 @@
+name: MapTutorialPlugin
+version: '${project.version}'
+main: com.senko.maptutorialplugin.MapTutorialPlugin
+api-version: 1.18
+description: 快速上手了解Map API
+
+commands:
+  get:
+    description: 获取一个地图
