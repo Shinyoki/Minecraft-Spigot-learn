@@ -1,0 +1,9 @@
+name: ParticleShootPlugin
+version: '${project.version}'
+main: github.shinyoki.particleshootplugin.ParticleShootPlugin
+api-version: '1.20'
+commands:
+  getbullet:
+    description: Get bullet
+    usage: /<command> <player>
+    permission: particleshootplugin.getbullet
